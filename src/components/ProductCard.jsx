@@ -1,0 +1,105 @@
+import { useCallback, useState } from 'react'
+import { useCart } from '../context/CartContext'
+import { useWishlist } from '../context/WishlistContext'
+import { getPerfumeImage, getFallbackColor } from '../services/imageService'
+import styles from './ProductCard.module.css'
+
+export default function ProductCard({ product, index = 0 }) {
+  const { addToCart } = useCart()
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist()
+  const inWishlist = isInWishlist(product.id)
+  const [imageError, setImageError] = useState(false)
+  
+  const fallbackColor = getFallbackColor(product.id)
+  const displayImage = getPerfumeImage(product.name, product.id)
+
+  const handleAddToCart = useCallback(() => {
+    addToCart(product)
+  }, [addToCart, product])
+
+  const handleWishlistToggle = useCallback((e) => {
+    e.preventDefault()
+    if (inWishlist) {
+      removeFromWishlist(product.id)
+    } else {
+      addToWishlist(product)
+    }
+  }, [inWishlist, product, addToWishlist, removeFromWishlist])
+
+  const discountPercentage = product.originalPrice
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    : 0
+
+  return (
+    <div className={styles.card}>
+      <div className={styles.imageContainer} style={{ backgroundColor: imageError ? fallbackColor : 'transparent' }}>
+        {!imageError && (
+          <img
+            src={displayImage}
+            alt={product.name}
+            className={styles.image}
+            onError={() => setImageError(true)}
+            loading="lazy"
+          />
+        )}
+        {imageError && (
+          <div className={styles.imageFallback}>
+            <div style={{ fontSize: '3rem' }}>🌹</div>
+            <p>{product.brand}</p>
+          </div>
+        )}
+        <button
+          className={`${styles.wishlistButton} ${inWishlist ? styles.active : ''}`}
+          onClick={handleWishlistToggle}
+          aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+          title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+        >
+          {inWishlist ? '❤️' : '🤍'}
+        </button>
+      </div>
+
+      <div className={styles.content}>
+        <div className={styles.brand}>{product.brand || 'Premium'}</div>
+        <h3 className={styles.name}>{product.name}</h3>
+        <p className={styles.description}>{product.description}</p>
+
+        {product.rating && (
+          <div className={styles.rating}>
+            <span className={styles.stars}>⭐ {product.rating.toFixed(1)}</span>
+            <span className={styles.reviewCount}>
+              ({product.reviewCount || 0} reviews)
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div className={styles.footer}>
+        <div className={styles.priceArea}>
+          {product.originalPrice && (
+            <span className={styles.originalPrice}>
+              ${product.originalPrice.toFixed(2)}
+            </span>
+          )}
+          <span className={styles.price}>${product.price.toFixed(2)}</span>
+          {discountPercentage > 0 && (
+            <span className={styles.discount}>-{discountPercentage}%</span>
+          )}
+        </div>
+        {typeof product.stock === 'number' && (
+          <div className={styles.stockArea}>
+            <span className={product.stock === 0 ? styles.outOfStock : styles.inStock}>
+              {product.stock === 0 ? 'Out of Stock' : 'In Stock'}
+            </span>
+          </div>
+        )}
+        <button
+          className={styles.addButton}
+          onClick={handleAddToCart}
+          disabled={product.stock === 0}
+        >
+          Add to Cart
+        </button>
+      </div>
+      </div>
+  )
+  }
