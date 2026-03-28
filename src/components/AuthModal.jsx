@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { GoogleLogin } from '@react-oauth/google'
 import { useAuth } from '../context/AuthContext'
 import styles from './AuthModal.module.css'
 
 export default function AuthModal({ isOpen, onClose }) {
   const { 
-    signInWithGoogle, 
+    signInWithGoogleCredential, 
     signInWithEmail, 
     signUpWithEmail, 
     sendVerificationCode,
@@ -39,11 +40,11 @@ export default function AuthModal({ isOpen, onClose }) {
 
   if (!isOpen) return null
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSuccess = async (credentialResponse) => {
     try {
       setLocalError(null)
       setLoading(true)
-      await signInWithGoogle()
+      await signInWithGoogleCredential(credentialResponse.credential)
       onClose()
     } catch (err) {
       console.error('Google sign in error:', err)
@@ -333,13 +334,17 @@ export default function AuthModal({ isOpen, onClose }) {
           {/* Google Sign In Button */}
           {step === 'initial' && !resetEmailSent && (
             <>
-              <button
-                className={styles.googleButton}
-                onClick={handleGoogleSignIn}
-                disabled={loading}
-              >
-                <span>🔐</span> Sign {isSignUp ? 'up' : 'in'} with Google
-              </button>
+              <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '1rem' }}>
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={() => setLocalError('Google Sign-In failed. Please try again.')}
+                  useOneTap
+                  theme="outline"
+                  size="large"
+                  text={isSignUp ? 'signup_with' : 'signin_with'}
+                  width="100%"
+                />
+              </div>
               <div className={styles.divider}>or</div>
             </>
           )}

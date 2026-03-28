@@ -10,6 +10,7 @@ import {
   sendPasswordResetEmail,
   updatePassword,
   reauthenticateWithCredential,
+  signInWithCredential,
   EmailAuthProvider
 } from 'firebase/auth'
 import { auth, db } from '../config/firebase'
@@ -51,12 +52,30 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe
   }, [])
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogleCredential = async (idToken) => {
     try {
       setError(null)
-      const result = await signInWithPopup(auth, googleProvider)
+      const credential = GoogleAuthProvider.credential(idToken)
+      const result = await signInWithCredential(auth, credential)
+
+      // Store complete user data in Firestore if not exists
+      const userRef = doc(db, 'users', result.user.uid)
+      const docSnap = await getDoc(userRef)
+      if (!docSnap.exists()) {
+        const displayName = result.user.displayName || ''
+        const nameParts = displayName.split(' ')
+        await setDoc(userRef, {
+          email: result.user.email,
+          phone: '',
+          firstName: nameParts[0] || '',
+          lastName: nameParts.slice(1).join(' ') || '',
+          createdAt: new Date(),
+          displayName: displayName
+        })
+      }
       return result.user
     } catch (err) {
+      console.error('Google Sign-In Error:', err)
       const errorMessage = 'Failed to sign in with Google. Please try again.'
       setError(errorMessage)
       throw err
@@ -318,7 +337,7 @@ export const AuthProvider = ({ children }) => {
     loading,
     isAuthenticated: !!user,
     error,
-    signInWithGoogle,
+    signInWithGoogleCredential,
     signInWithEmail,
     signUpWithEmail,
     logout,
