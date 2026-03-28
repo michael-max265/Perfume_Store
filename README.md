@@ -8,7 +8,7 @@ A high-quality, responsive React-based e-commerce platform for premium perfumes 
 - 🔍 **Advanced Filtering** - Filter by category, brand, and price range
 - 🛒 **Shopping Cart** - Manage items and calculate totals with tax and shipping
 - ❤️ **Wishlist** - Save favorite products for later
-- 👤 **User Authentication** - Firebase-powered login and registration
+- 👤 **User Authentication** - Local login and registration
 - 💳 **Payment Processing** - Secure Stripe integration
 - ⭐ **Product Reviews** - Read and write reviews and ratings
 - 📦 **Order Management** - Track orders and delivery status
@@ -20,8 +20,8 @@ A high-quality, responsive React-based e-commerce platform for premium perfumes 
 - **Frontend**: React 18+ with Vite
 - **State Management**: React Context API
 - **Styling**: CSS Modules
-- **Database**: Firebase (Firestore)
-- **Authentication**: Firebase Auth
+- **Database**: Local Storage
+- **Authentication**: Local Authentication
 - **Payments**: Stripe API
 - **Routing**: React Router v6
 - **Deployment**: Vercel-ready
@@ -43,9 +43,8 @@ src/
 │   ├── CartContext.jsx     # Cart state management
 │   ├── AuthContext.jsx     # Authentication state
 │   └── WishlistContext.jsx # Wishlist management
-├── services/           # API and Firebase services
+├── services/           # API services
 ├── config/             # Configuration files
-│   ├── firebase.js      # Firebase setup
 │   └── stripe.js        # Stripe setup
 ├── styles/             # Global CSS and modules
 ├── utils/              # Helper functions
@@ -57,7 +56,7 @@ src/
 ### Prerequisites
 
 - Node.js 16+ and npm
-- Firebase project (for database)
+
 - Stripe account (for payments)
 
 ### Installation
@@ -78,15 +77,10 @@ npm install
 cp .env.local.example .env.local
 ```
 
-4. Add your Firebase and Stripe credentials to `.env.local`:
+4. Add your Stripe and EmailJS credentials to `.env.local`:
 ```
-VITE_FIREBASE_API_KEY=your-key
-VITE_FIREBASE_AUTH_DOMAIN=your-domain
-VITE_FIREBASE_PROJECT_ID=your-project
-VITE_FIREBASE_STORAGE_BUCKET=your-bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
-VITE_FIREBASE_APP_ID=your-app-id
 VITE_STRIPE_PUBLIC_KEY=your-stripe-key
+VITE_GOOGLE_CLIENT_ID=your-google-client-id
 ```
 
 ### Development

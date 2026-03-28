@@ -2,8 +2,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex: 1;
-  min-width: 0;
+  flex-wrap: wrap;
 }
 
 .stockArea {
@@ -188,10 +187,16 @@
   padding: 1rem;
   border-top: 1px solid #eee;
   display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footerTop {
+  display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  align-items: center;
+  width: 100%;
 }
 
 .price {
@@ -220,7 +225,7 @@
   border-radius: 4px;
   font-weight: 600;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  min-width: 120px;
+  width: 100%;
   white-space: nowrap;
   position: relative;
   overflow: hidden;
@@ -267,8 +272,6 @@
   padding: 1rem;
   border-top: 1px solid #eee;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
 }

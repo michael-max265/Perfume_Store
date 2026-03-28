@@ -77,24 +77,26 @@ export default function ProductCard({ product, index = 0 }) {
       </div>
 
       <div className={styles.footer}>
-        <div className={styles.priceArea}>
-          {product.originalPrice && (
-            <span className={styles.originalPrice}>
-              ${product.originalPrice.toFixed(2)}
-            </span>
-          )}
-          <span className={styles.price}>${product.price.toFixed(2)}</span>
-          {discountPercentage > 0 && (
-            <span className={styles.discount}>-{discountPercentage}%</span>
+        <div className={styles.footerTop}>
+          <div className={styles.priceArea}>
+            {product.originalPrice && (
+              <span className={styles.originalPrice}>
+                ${product.originalPrice.toFixed(2)}
+              </span>
+            )}
+            <span className={styles.price}>${product.price.toFixed(2)}</span>
+            {discountPercentage > 0 && (
+              <span className={styles.discount}>-{discountPercentage}%</span>
+            )}
+          </div>
+          {typeof product.stock === 'number' && (
+            <div className={styles.stockArea}>
+              <span className={product.stock === 0 ? styles.outOfStock : styles.inStock}>
+                {product.stock === 0 ? 'Out of Stock' : 'In Stock'}
+              </span>
+            </div>
           )}
         </div>
-        {typeof product.stock === 'number' && (
-          <div className={styles.stockArea}>
-            <span className={product.stock === 0 ? styles.outOfStock : styles.inStock}>
-              {product.stock === 0 ? 'Out of Stock' : 'In Stock'}
-            </span>
-          </div>
-        )}
         <button
           className={styles.addButton}
           onClick={handleAddToCart}
