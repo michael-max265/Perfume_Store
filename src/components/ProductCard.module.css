@@ -96,6 +96,20 @@
   padding: 0 10px;
 }
 
+.discountBadge {
+  position: absolute;
+  top: 2px;
+  left: 10px;
+  background-color: #d35400;
+  color: white;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 4px;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
 .wishlistButton {
   position: absolute;
   top: 10px;
@@ -234,6 +248,21 @@
 
   .price {
     font-size: 1.1rem;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .priceArea {
+    width: 100%;
+  }
+
+  .addButton {
+    width: 100%;
+    margin-top: 0.5rem;
   }
 }
 

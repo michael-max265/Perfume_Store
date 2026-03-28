@@ -33,6 +33,9 @@ export default function ProductCard({ product, index = 0 }) {
   return (
     <div className={styles.card}>
       <div className={styles.imageContainer} style={{ backgroundColor: imageError ? fallbackColor : 'transparent' }}>
+        {discountPercentage > 0 && (
+          <div className={styles.discountBadge}>-{discountPercentage}% OFF</div>
+        )}
         {!imageError && (
           <img
             src={displayImage}
