@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react'
 import ProductCard from '../components/ProductCard'
-import { PERFUME_PRODUCTS } from '../data/products'
+import { useProducts } from '../context/ProductsContext'
 import styles from './Shop.module.css'
 
-const MOCK_PRODUCTS = PERFUME_PRODUCTS
-
 export default function Shop() {
+  const { products } = useProducts()
+  
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedBrand, setSelectedBrand] = useState('all')
   const [priceRange, setPriceRange] = useState('all')
@@ -13,11 +13,11 @@ export default function Shop() {
 
   // Dynamically get unique brands
   const uniqueBrands = useMemo(() => {
-    const brands = ['all', ...new Set(MOCK_PRODUCTS.map(p => p.brand))]
+    const brands = ['all', ...new Set(products.map(p => p.brand))]
     return brands
-  }, [MOCK_PRODUCTS])
+  }, [products])
 
-  const filteredProducts = MOCK_PRODUCTS.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     if (selectedCategory !== 'all' && product.category !== selectedCategory)
       return false
 

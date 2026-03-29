@@ -56,6 +56,7 @@ export default function Header() {
             <li><Link to="/about" onClick={closeMenu}>About</Link></li>
             <li><Link to="/faq" onClick={closeMenu}>FAQ</Link></li>
             <li><Link to="/contact" onClick={closeMenu}>Contact</Link></li>
+            <li><Link to="/admin" onClick={closeMenu}>Admin</Link></li>
             
             {/* Mobile Auth Links */}
             <li className={styles.mobileAuthOnly}>

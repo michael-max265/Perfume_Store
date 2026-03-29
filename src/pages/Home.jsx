@@ -2,19 +2,20 @@ import { useState, useEffect } from 'react'
 import { subscribeToNewsletter } from '../services/emailService'
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
-import { PERFUME_PRODUCTS } from '../data/products'
+import { useProducts } from '../context/ProductsContext'
 import styles from './Home.module.css'
 
 export default function Home() {
+  const { products } = useProducts()
   const [featuredProducts, setFeaturedProducts] = useState([])
   const [newsletterStatus, setNewsletterStatus] = useState('idle'); // idle | loading | success | error
   const [newsletterMessage, setNewsletterMessage] = useState('');
 
   useEffect(() => {
     // Get first 4 featured products (highest rated)
-    const featured = PERFUME_PRODUCTS.slice(0, 4)
+    const featured = products.length > 0 ? products.slice(0, 4) : []
     setFeaturedProducts(featured)
-  }, [])
+  }, [products])
 
   return (
     <main>

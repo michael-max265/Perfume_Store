@@ -43,7 +43,7 @@
 .featureItem {
   text-align: center;
   padding: 1.5rem;
-  background: #f5f5f5;
+  background: var(--bg-primary);
   border-radius: 8px;
   border-left: 4px solid #8b5a3c;
 }
@@ -68,7 +68,7 @@
 .teamMember {
   text-align: center;
   padding: 1.5rem;
-  background: #f5f5f5;
+  background: var(--bg-primary);
   border-radius: 8px;
 }
 

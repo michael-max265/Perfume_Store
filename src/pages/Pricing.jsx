@@ -1,5 +1,5 @@
 import ProductCard from '../components/ProductCard'
-import { PERFUME_PRODUCTS } from '../data/products'
+import { useProducts } from '../context/ProductsContext'
 import styles from './Pricing.module.css'
 
 const PRICE_RANGES = [
@@ -30,16 +30,18 @@ const PRICE_RANGES = [
 ]
 
 export default function Pricing() {
+  const { products } = useProducts()
+
   const getProductsByPriceRange = (min, max) => {
-    return PERFUME_PRODUCTS.filter(
+    return products.filter(
       (product) => product.price >= min && product.price <= max
     )
   }
 
-  const avgPrice = (
-    PERFUME_PRODUCTS.reduce((sum, p) => sum + p.price, 0) /
-    PERFUME_PRODUCTS.length
-  ).toFixed(2)
+  const avgPrice = products.length > 0 ? (
+    products.reduce((sum, p) => sum + p.price, 0) /
+    products.length
+  ).toFixed(2) : '0.00'
 
   return (
     <div className={styles.pricingContainer}>
@@ -51,7 +53,7 @@ export default function Pricing() {
       {/* Price Statistics */}
       <div className={styles.priceStats}>
         <div className={styles.statCard}>
-          <h3>${Math.min(...PERFUME_PRODUCTS.map((p) => p.price)).toFixed(2)}</h3>
+          <h3>${products.length > 0 ? Math.min(...products.map((p) => p.price)).toFixed(2) : '0.00'}</h3>
           <p>Most Affordable</p>
         </div>
         <div className={styles.statCard}>
@@ -59,7 +61,7 @@ export default function Pricing() {
           <p>Average Price</p>
         </div>
         <div className={styles.statCard}>
-          <h3>${Math.max(...PERFUME_PRODUCTS.map((p) => p.price)).toFixed(2)}</h3>
+          <h3>${products.length > 0 ? Math.max(...products.map((p) => p.price)).toFixed(2) : '0.00'}</h3>
           <p>Most Premium</p>
         </div>
       </div>
@@ -113,12 +115,12 @@ export default function Pricing() {
             </p>
           </div>
           <div className={styles.priceRange}>
-            All Prices ({PERFUME_PRODUCTS.length} products)
+            All Prices ({products.length} products)
           </div>
         </div>
 
         <div className={styles.grid}>
-          {PERFUME_PRODUCTS.map((product) => (
+          {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
