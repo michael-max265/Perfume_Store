@@ -8,7 +8,7 @@
 .contactTitle {
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  color: #1a1a1a;
+  color: var(--text-primary);
   text-align: center;
 }
 
@@ -20,14 +20,14 @@
 }
 
 .contactForm {
-  background: white;
+  background: var(--bg-surface);
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .contactForm h2 {
-  color: #1a1a1a;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
 }
@@ -39,7 +39,7 @@
 .formGroup label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #1a1a1a;
+  color: var(--text-primary);
   font-weight: 500;
 }
 
@@ -130,7 +130,7 @@
 }
 
 .infoCard {
-  background: white;
+  background: var(--bg-surface);
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -143,7 +143,7 @@
 }
 
 .infoCard p {
-  color: #666;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -157,7 +157,7 @@
 }
 
 .hoursSection {
-  background: white;
+  background: var(--bg-surface);
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -174,7 +174,7 @@
 
 .hoursList li {
   padding: 0.5rem 0;
-  color: #666;
+  color: var(--text-secondary);
   display: flex;
   justify-content: space-between;
 }
@@ -189,7 +189,7 @@
 }
 
 .faqSection {
-  background: white;
+  background: var(--bg-surface);
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -197,7 +197,7 @@
 }
 
 .faqSection h2 {
-  color: #1a1a1a;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
 }
 
@@ -218,7 +218,7 @@
 }
 
 .faqAnswer {
-  color: #666;
+  color: var(--text-secondary);
   margin: 0;
 }
 

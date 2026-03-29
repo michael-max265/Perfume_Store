@@ -12,13 +12,13 @@
 
 .faqHeader h1 {
   font-size: 2.5rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .faqHeader p {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .faqContent {
@@ -56,7 +56,7 @@
   align-items: center;
   font-size: 1.1rem;
   font-weight: 500;
-  color: #333;
+  color: var(--text-primary);
   transition: background 0.3s ease;
 }
 
@@ -119,13 +119,13 @@
 
 .contactCard h3,
 .infoCard h3 {
-  color: #333;
+  color: var(--text-primary);
   margin-top: 0;
   margin-bottom: 1rem;
 }
 
 .contactCard p {
-  color: #666;
+  color: var(--text-secondary);
   margin: 0 0 1.5rem 0;
 }
 
@@ -148,12 +148,12 @@
 
 .contactOption strong {
   display: block;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
 
 .contactOption p {
-  color: #666;
+  color: var(--text-secondary);
   margin: 0;
   font-size: 0.95rem;
 }

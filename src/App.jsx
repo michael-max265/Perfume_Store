@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
 import { AuthProvider } from './context/AuthContext'
 import { WishlistProvider } from './context/WishlistContext'
+import { ThemeProvider } from './context/ThemeContext'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -17,8 +18,9 @@ import Checkout from './pages/Checkout'
 function App() {
   return (
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <CartProvider>
+      <ThemeProvider>
         <AuthProvider>
+        <CartProvider>
           <WishlistProvider>
             <div className="app">
               <Header />
@@ -36,8 +38,9 @@ function App() {
               <Footer />
             </div>
           </WishlistProvider>
-        </AuthProvider>
-      </CartProvider>
+        </CartProvider>
+      </AuthProvider>
+      </ThemeProvider>
     </Router>
   )
 }

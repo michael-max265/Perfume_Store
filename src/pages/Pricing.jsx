@@ -81,7 +81,7 @@ export default function Pricing() {
             <div className={styles.sectionHeader}>
               <div>
                 <h2>{range.title}</h2>
-                <p style={{ color: '#666', margin: '0.25rem 0 0 0' }}>
+                <p style={{ color: 'var(--text-secondary)', margin: '0.25rem 0 0 0' }}>
                   {range.description}
                 </p>
               </div>
@@ -108,7 +108,7 @@ export default function Pricing() {
         <div className={styles.sectionHeader}>
           <div>
             <h2>All Fragrances</h2>
-            <p style={{ color: '#666', margin: '0.25rem 0 0 0' }}>
+            <p style={{ color: 'var(--text-secondary)', margin: '0.25rem 0 0 0' }}>
               Browse our complete collection
             </p>
           </div>

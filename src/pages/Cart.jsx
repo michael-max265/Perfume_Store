@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
 import styles from './Cart.module.css'
 
 export default function Cart() {
   const { cart, updateQuantity, removeFromCart, getTotalPrice, clearCart } =
     useCart()
+  const { isAuthenticated, openAuthModal } = useAuth()
+  const navigate = useNavigate()
   const total = getTotalPrice()
 
   if (cart.length === 0) {
@@ -111,9 +114,17 @@ export default function Cart() {
             <span>${(total + (total > 100 ? 0 : 10) + total * 0.08).toFixed(2)}</span>
           </div>
 
-          <Link to="/checkout" className={styles.checkoutButton}>
+          <button 
+            onClick={(e) => {
+              e.preventDefault()
+              if (isAuthenticated) navigate('/checkout')
+              else openAuthModal()
+            }} 
+            className={styles.checkoutButton}
+            style={{ width: '100%', display: 'block', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+          >
             Proceed to Checkout
-          </Link>
+          </button>
 
           <Link
             to="/shop"

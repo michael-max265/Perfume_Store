@@ -1,11 +1,17 @@
 import { createContext, useContext, useState, useCallback } from 'react'
+import { useAuth } from './AuthContext'
 
 const CartContext = createContext()
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([])
+  const { isAuthenticated, openAuthModal } = useAuth()
 
   const addToCart = useCallback((product) => {
+    if (!isAuthenticated) {
+      openAuthModal()
+      return
+    }
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id)
       if (existingItem) {
@@ -17,7 +23,7 @@ export const CartProvider = ({ children }) => {
       }
       return [...prevCart, { ...product, quantity: product.quantity || 1 }]
     })
-  }, [])
+  }, [isAuthenticated, openAuthModal])
 
   const removeFromCart = useCallback((productId) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId))

@@ -2,16 +2,25 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
+import { useTheme } from '../context/ThemeContext'
 import AuthModal from './AuthModal'
 import styles from './Header.module.css'
 
+const getInitials = (user) => {
+  if (!user) return 'U'
+  if (user.firstName && user.lastName) return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase()
+  if (user.displayName) return user.displayName.substring(0, 2).toUpperCase()
+  if (user.email) return user.email.substring(0, 2).toUpperCase()
+  return 'U'
+}
+
 export default function Header() {
-  const { getTotalItems } = useCart()
-  const { user, isAuthenticated, logout } = useAuth()
+  const { getTotalItems, clearCart } = useCart()
+  const { user, isAuthenticated, logout, isAuthModalOpen, openAuthModal, closeAuthModal } = useAuth()
+  const { isDarkMode, toggleTheme } = useTheme()
   const totalItems = getTotalItems()
   const [menuOpen, setMenuOpen] = useState(false)
   const [showAuthMenu, setShowAuthMenu] = useState(false)
-  const [showAuthModal, setShowAuthModal] = useState(false)
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
@@ -24,6 +33,7 @@ export default function Header() {
   const handleSignOut = async () => {
     try {
       await logout()
+      clearCart()
       setShowAuthMenu(false)
       closeMenu()
     } catch (error) {
@@ -46,10 +56,23 @@ export default function Header() {
             <li><Link to="/about" onClick={closeMenu}>About</Link></li>
             <li><Link to="/faq" onClick={closeMenu}>FAQ</Link></li>
             <li><Link to="/contact" onClick={closeMenu}>Contact</Link></li>
+            
+            {/* Mobile Auth Links */}
+            <li className={styles.mobileAuthOnly}>
+              {isAuthenticated ? (
+                <button className={styles.navSignOutButton} onClick={handleSignOut}>Sign Out</button>
+              ) : (
+                <button className={styles.navSignInButton} onClick={() => { closeMenu(); openAuthModal(); }}>Sign In</button>
+              )}
+            </li>
           </ul>
         </nav>
 
         <div className={styles.actions}>
+          <button onClick={toggleTheme} className={styles.themeToggle} title="Toggle Theme" aria-label="Toggle Theme">
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
+          
           <Link to="/wishlist" className={styles.iconButton} title="Wishlist" onClick={closeMenu}>
             ❤️
           </Link>
@@ -67,7 +90,7 @@ export default function Header() {
                 onClick={() => setShowAuthMenu(!showAuthMenu)}
                 title={user?.displayName || user?.email || 'User Account'}
               >
-                👤 {user?.displayName ? user.displayName.split(' ')[0] : 'User'}
+                <div className={styles.userInitials}>{getInitials(user)}</div>
               </button>
               {showAuthMenu && (
                 <div className={styles.authDropdown}>
@@ -85,7 +108,7 @@ export default function Header() {
           ) : (
             <button 
               className={styles.signInButton} 
-              onClick={() => setShowAuthModal(true)}
+              onClick={openAuthModal}
             >
               Sign In
             </button>
@@ -108,8 +131,8 @@ export default function Header() {
       )}
 
       <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
+        isOpen={isAuthModalOpen} 
+        onClose={closeAuthModal} 
       />
     </header>
   )

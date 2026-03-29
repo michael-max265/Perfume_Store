@@ -8,12 +8,12 @@
 .aboutTitle {
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  color: #1a1a1a;
+  color: var(--text-primary);
   text-align: center;
 }
 
 .aboutSection {
-  background: white;
+  background: var(--bg-surface);
   border-radius: 8px;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -27,7 +27,7 @@
 }
 
 .aboutSection p {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.8;
   margin-bottom: 1rem;
   font-size: 1rem;
@@ -55,7 +55,7 @@
 
 .featureItem p {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .teamGrid {
@@ -73,7 +73,7 @@
 }
 
 .teamMember h3 {
-  color: #1a1a1a;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -84,7 +84,7 @@
 }
 
 .teamMember p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }

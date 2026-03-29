@@ -51,7 +51,13 @@ export default function Footer() {
               const result = await subscribeToNewsletter(email);
               setNewsletterStatus(result.success ? 'success' : 'error');
               setNewsletterMessage(result.message);
-              if (result.success) form.reset();
+              if (result.success) {
+                form.reset();
+                setTimeout(() => {
+                  setNewsletterStatus('idle');
+                  setNewsletterMessage('');
+                }, 10000);
+              }
             }}
           >
             <input

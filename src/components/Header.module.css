@@ -1,6 +1,6 @@
 .header {
-  background-color: #fff;
-  border-bottom: 1px solid #e5e5e5;
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -46,7 +46,7 @@
 }
 
 .navLinks a {
-  color: #333;
+  color: var(--text-primary);
   font-weight: 500;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
@@ -86,7 +86,7 @@
   cursor: pointer;
   font-size: 1.5rem;
   position: relative;
-  color: #333;
+  color: var(--text-primary);
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   text-decoration: none;
   display: flex;
@@ -98,9 +98,29 @@
 }
 
 .iconButton:hover {
-  color: #8b5a3c;
+  color: var(--primary-color, #8b5a3c);
   transform: scale(1.15) rotate(-5deg);
-  background-color: rgba(139, 90, 60, 0.1);
+  background-color: var(--hover-bg, rgba(139, 90, 60, 0.1));
+}
+
+.themeToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: var(--text-primary, var(--text-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.themeToggle:hover {
+  background-color: var(--hover-bg, rgba(139, 90, 60, 0.1));
+  transform: rotate(15deg);
 }
 
 .cartBadge {
@@ -129,14 +149,28 @@
   border: none;
   cursor: pointer;
   font-size: 1rem;
-  color: #333;
-  padding: 0.5rem 0.75rem;
-  border-radius: 4px;
+  color: var(--text-primary);
+  padding: 0.5rem;
+  border-radius: 50%;
   transition: all 0.3s ease;
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+}
+
+.userInitials {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #8b5a3c;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
 }
 
 .userButton:hover {
@@ -148,10 +182,10 @@
   position: absolute;
   top: 100%;
   right: 0;
-  background: white;
-  border: 1px solid #e0e0e0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--card-shadow);
   padding: 1rem;
   width: 250px;
   margin-top: 0.5rem;
@@ -165,28 +199,28 @@
 
 .userInfo p {
   margin: 0.25rem 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 0.95rem;
 }
 
 .userEmail {
-  color: #999;
+  color: var(--text-secondary);
   font-size: 0.85rem !important;
 }
 
 .authDropdown hr {
   border: none;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-color);
   margin: 0.75rem 0;
 }
 
 .signOutButton {
   width: 100%;
   padding: 0.75rem;
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-  color: #333;
+  color: var(--text-primary);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -239,7 +273,7 @@
 .hamburger span {
   width: 25px;
   height: 3px;
-  background-color: #333;
+  background-color: var(--text-primary);
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -258,6 +292,26 @@
   z-index: 99;
 }
 
+.mobileAuthOnly {
+  display: none;
+}
+
+.navSignInButton, .navSignOutButton {
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.navSignInButton { color: #8b5a3c; font-weight: 600; }
+.navSignOutButton { color: #e74c3c; font-weight: 600; }
+
 /* Tablet and small desktop (1024px and below) */
 @media (max-width: 1024px) {
   .navDesktop {
@@ -266,7 +320,7 @@
     top: 60px;
     width: 100%;
     height: calc(100vh - 60px);
-    background-color: #fff;
+    background-color: var(--bg-surface);
     flex-direction: column;
     overflow-y: auto;
     transform: translateX(-100%);
@@ -278,6 +332,16 @@
     transform: translateX(0);
   }
 
+  .authMenu, .signInButton {
+    display: none !important;
+  }
+
+  .mobileAuthOnly {
+    display: block;
+    margin-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+
   .navLinks {
     flex-direction: column;
     gap: 0;
@@ -285,7 +349,7 @@
   }
 
   .navLinks li {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--border-color);
   }
 
   .navLinks a {
@@ -331,7 +395,7 @@
     top: 50px;
     width: 100%;
     height: calc(100vh - 50px);
-    background-color: #fff;
+    background-color: var(--bg-surface);
     flex-direction: column;
     overflow-y: auto;
     transform: translateX(-100%);
@@ -350,7 +414,7 @@
   }
 
   .navLinks li {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--border-color);
   }
 
   .navLinks a {

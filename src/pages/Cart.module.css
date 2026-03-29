@@ -8,18 +8,18 @@
 .cartTitle {
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 .emptyCart {
   text-align: center;
   padding: 3rem;
-  background: white;
+  background: var(--bg-surface);
   border-radius: 8px;
 }
 
 .emptyCart p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 1.1rem;
   margin-bottom: 2rem;
 }
@@ -46,7 +46,7 @@
 }
 
 .cartItems {
-  background: white;
+  background: var(--bg-surface);
   border-radius: 8px;
   padding: 1.5rem;
 }
@@ -78,7 +78,7 @@
 .itemName {
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 .itemBrand {
@@ -89,7 +89,7 @@
 
 .itemPrice {
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
@@ -104,7 +104,7 @@
   width: 30px;
   height: 30px;
   border: 1px solid #ddd;
-  background: white;
+  background: var(--bg-surface);
   cursor: pointer;
   border-radius: 4px;
   font-weight: bold;
@@ -112,7 +112,7 @@
 }
 
 .quantityButton:hover {
-  background-color: #f5f5f5;
+  background-color: var(--bg-secondary);
 }
 
 .quantityInput {
@@ -139,7 +139,7 @@
 }
 
 .summaryBox {
-  background: white;
+  background: var(--bg-surface);
   border-radius: 8px;
   padding: 1.5rem;
   height: fit-content;
@@ -150,7 +150,7 @@
 .summaryTitle {
   font-size: 1.3rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 .summaryRow {

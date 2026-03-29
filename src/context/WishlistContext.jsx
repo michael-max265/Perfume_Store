@@ -1,11 +1,17 @@
 import { createContext, useContext, useState, useCallback } from 'react'
+import { useAuth } from './AuthContext'
 
 const WishlistContext = createContext()
 
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([])
+  const { isAuthenticated, openAuthModal } = useAuth()
 
   const addToWishlist = useCallback((product) => {
+    if (!isAuthenticated) {
+      openAuthModal()
+      return
+    }
     setWishlist((prevWishlist) => {
       const exists = prevWishlist.find((item) => item.id === product.id)
       if (exists) {
@@ -13,7 +19,7 @@ export const WishlistProvider = ({ children }) => {
       }
       return [...prevWishlist, product]
     })
-  }, [])
+  }, [isAuthenticated, openAuthModal])
 
   const removeFromWishlist = useCallback((productId) => {
     setWishlist((prevWishlist) =>

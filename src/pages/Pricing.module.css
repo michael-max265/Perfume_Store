@@ -9,12 +9,12 @@
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 1rem;
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 .pricingSubtitle {
   text-align: center;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 3rem;
   font-size: 1.1rem;
 }
@@ -39,9 +39,9 @@
 }
 
 .priceRange {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.95rem;
-  background-color: #f5f5f5;
+  background-color: var(--bg-secondary);
   padding: 0.5rem 1rem;
   border-radius: 20px;
 }
@@ -76,7 +76,7 @@
   gap: 2rem;
   margin-bottom: 3rem;
   padding: 2rem;
-  background: white;
+  background: var(--bg-surface);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
@@ -92,7 +92,7 @@
 }
 
 .statCard p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   margin: 0;
 }
@@ -106,16 +106,16 @@
 }
 
 .filterBanner p {
-  color: #666;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .noProducts {
   text-align: center;
   padding: 2rem;
-  background: white;
+  background: var(--bg-surface);
   border-radius: 8px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 @media (max-width: 768px) {

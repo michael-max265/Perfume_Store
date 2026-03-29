@@ -14,6 +14,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+
+  const openAuthModal = () => setIsAuthModalOpen(true)
+  const closeAuthModal = () => setIsAuthModalOpen(false)
 
   useEffect(() => {
     // Check localStorage on mount
@@ -129,6 +133,9 @@ export const AuthProvider = ({ children }) => {
     loading,
     isAuthenticated: !!user,
     error,
+    isAuthModalOpen,
+    openAuthModal,
+    closeAuthModal,
     signInWithGoogleCredential,
     signInWithEmail,
     signUpWithEmail,

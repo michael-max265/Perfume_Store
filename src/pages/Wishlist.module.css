@@ -8,18 +8,18 @@
 .wishlistTitle {
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 .emptyWishlist {
   text-align: center;
   padding: 3rem;
-  background: white;
+  background: var(--bg-surface);
   border-radius: 8px;
 }
 
 .emptyWishlist p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 1.1rem;
   margin-bottom: 2rem;
 }
