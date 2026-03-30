@@ -41,11 +41,16 @@ export const CartProvider = ({ children }) => {
       removeFromCart(productId)
       return
     }
-    setCart((prevCart) =>
-      prevCart.map((item) =>
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === productId);
+      if (existingItem && existingItem.stock !== undefined && quantity > existingItem.stock) {
+        alert("You've reached the limit! There's no more of this item available in stock.");
+        return prevCart;
+      }
+      return prevCart.map((item) =>
         item.id === productId ? { ...item, quantity } : item
-      )
-    )
+      );
+    });
   }, [removeFromCart])
 
   const clearCart = useCallback(() => {
