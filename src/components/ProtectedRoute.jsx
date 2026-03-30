@@ -39,11 +39,11 @@ export default function ProtectedRoute({ children }) {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center', 
-        backgroundColor: '#0f1115',
+        backgroundColor: '#121212',
         fontFamily: 'system-ui, -apple-system, sans-serif'
       }}>
         <div style={{
-          backgroundColor: '#171a21',
+          backgroundColor: '#1B1C22',
           border: '1px solid #2a2d36',
           borderRadius: '16px',
           padding: '3rem 2.5rem',
@@ -70,7 +70,7 @@ export default function ProtectedRoute({ children }) {
                 style={{
                   width: '100%',
                   padding: '1rem 1.25rem',
-                  backgroundColor: '#0f1115',
+                  backgroundColor: '#0D0E12',
                   border: error ? '1px solid #f85149' : '1px solid #2a2d36',
                   borderRadius: '12px',
                   color: '#ffffff',
@@ -89,8 +89,8 @@ export default function ProtectedRoute({ children }) {
               style={{
                 width: '100%',
                 padding: '1rem',
-                backgroundColor: '#1f6feb',
-                color: '#ffffff',
+                backgroundColor: 'var(--primary-color)',
+                color: 'var(--bg-surface)',
                 border: 'none',
                 borderRadius: '12px',
                 fontSize: '1.05rem',
@@ -99,8 +99,8 @@ export default function ProtectedRoute({ children }) {
                 transition: 'background-color 0.2s',
                 boxSizing: 'border-box'
               }}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#388bfd'}
-              onMouseOut={(e) => e.target.style.backgroundColor = '#1f6feb'}
+              onMouseOver={(e) => e.target.style.backgroundColor = 'var(--primary-hover)'}
+              onMouseOut={(e) => e.target.style.backgroundColor = 'var(--primary-color)'}
             >
               Unlock Dashboard &rarr;
             </button>
