@@ -3,9 +3,10 @@ import { useProducts } from '../context/ProductsContext'
 import styles from './Admin.module.css'
 
 export default function Admin() {
-  const { products, addProduct, deleteProduct } = useProducts()
+  const { products, addProduct, deleteProduct, updateProduct } = useProducts()
   
   const [showForm, setShowForm] = useState(false)
+  const [editingId, setEditingId] = useState(null)
   const [formData, setFormData] = useState({
     name: '',
     brand: '',
@@ -24,18 +25,39 @@ export default function Admin() {
     }))
   }
 
+  const handleEdit = (product) => {
+    setFormData({
+      name: product.name,
+      brand: product.brand,
+      price: product.price,
+      description: product.description || '',
+      category: product.category || 'women',
+      image: product.image || '',
+      stock: product.stock !== undefined ? product.stock : 10,
+    })
+    setEditingId(product.id)
+    setShowForm(true)
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     
-    const newProduct = {
-      ...formData,
+    const numericData = {
       price: parseFloat(formData.price),
       stock: parseInt(formData.stock, 10),
-      rating: 5.0, // Default rating for new products
-      reviewCount: 0,
     }
-    
-    addProduct(newProduct)
+
+    if (editingId) {
+      updateProduct(editingId, { ...formData, ...numericData });
+    } else {
+      const newProduct = {
+        ...formData,
+        ...numericData,
+        rating: 5.0, // Default rating for new products
+        reviewCount: 0,
+      }
+      addProduct(newProduct)
+    }
     
     // Reset form
     setFormData({
@@ -47,6 +69,7 @@ export default function Admin() {
       image: '',
       stock: 10,
     })
+    setEditingId(null)
     setShowForm(false)
   }
 
@@ -56,7 +79,13 @@ export default function Admin() {
         <h1 className={styles.title}>Admin Dashboard</h1>
         <button 
           className={styles.addButton}
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => {
+            if (showForm) {
+              setEditingId(null);
+              setFormData({ name: '', brand: '', price: '', description: '', category: 'women', image: '', stock: 10 });
+            }
+            setShowForm(!showForm)
+          }}
         >
           {showForm ? 'Cancel' : 'Add New Product'}
         </button>
@@ -64,7 +93,7 @@ export default function Admin() {
 
       {showForm && (
         <div className={styles.formContainer}>
-          <h2 className={styles.formTitle}>Add New Perfume</h2>
+          <h2 className={styles.formTitle}>{editingId ? 'Edit Perfume' : 'Add New Perfume'}</h2>
           <form onSubmit={handleSubmit}>
             <div className={styles.formGrid}>
               <div className={styles.inputGroup}>
@@ -161,12 +190,16 @@ export default function Admin() {
               <button 
                 type="button" 
                 className={styles.cancelButton}
-                onClick={() => setShowForm(false)}
+                onClick={() => {
+                  setEditingId(null);
+                  setFormData({ name: '', brand: '', price: '', description: '', category: 'women', image: '', stock: 10 });
+                  setShowForm(false);
+                }}
               >
                 Cancel
               </button>
               <button type="submit" className={styles.submitButton}>
-                Save Product
+                {editingId ? 'Update Product' : 'Save Product'}
               </button>
             </div>
           </form>
@@ -198,16 +231,25 @@ export default function Admin() {
                 <td>${product.price ? product.price.toFixed(2) : '0.00'}</td>
                 <td>{product.stock}</td>
                 <td>
-                  <button 
-                    className={styles.deleteButton}
-                    onClick={() => {
-                      if(window.confirm(`Are you sure you want to delete ${product.name}?`)) {
-                        deleteProduct(product.id)
-                      }
-                    }}
-                  >
-                    Delete
-                  </button>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button 
+                      className={styles.addButton}
+                      style={{ padding: '0.4rem 0.8rem', fontSize: '0.9rem' }}
+                      onClick={() => handleEdit(product)}
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      className={styles.deleteButton}
+                      onClick={() => {
+                        if(window.confirm(`Are you sure you want to delete ${product.name}?`)) {
+                          deleteProduct(product.id)
+                        }
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

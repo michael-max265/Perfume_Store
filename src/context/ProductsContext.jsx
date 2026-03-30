@@ -41,6 +41,14 @@ export function ProductsProvider({ children }) {
     localStorage.setItem('products', JSON.stringify(updatedProducts));
   };
 
+  const updateProduct = (id, updatedData) => {
+    const updatedProducts = products.map(product => 
+      product.id === id ? { ...product, ...updatedData } : product
+    );
+    setProducts(updatedProducts);
+    localStorage.setItem('products', JSON.stringify(updatedProducts));
+  };
+
   const purchaseItems = (cartItems) => {
     setProducts((prev) => {
       const newProducts = prev.map(p => {
@@ -56,7 +64,7 @@ export function ProductsProvider({ children }) {
   };
 
   return (
-    <ProductsContext.Provider value={{ products, addProduct, deleteProduct, purchaseItems }}>
+    <ProductsContext.Provider value={{ products, addProduct, deleteProduct, updateProduct, purchaseItems }}>
       {children}
     </ProductsContext.Provider>
   );
