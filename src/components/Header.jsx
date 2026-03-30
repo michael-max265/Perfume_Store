@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
@@ -21,6 +21,8 @@ export default function Header() {
   const totalItems = getTotalItems()
   const [menuOpen, setMenuOpen] = useState(false)
   const [showAuthMenu, setShowAuthMenu] = useState(false)
+  const location = useLocation()
+  const isAdminRoute = location.pathname.startsWith('/admin')
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
@@ -58,13 +60,15 @@ export default function Header() {
             <li><Link to="/contact" onClick={closeMenu}>Contact</Link></li>
             
             {/* Mobile Auth Links */}
-            <li className={styles.mobileAuthOnly}>
-              {isAuthenticated ? (
-                <button className={styles.navSignOutButton} onClick={handleSignOut}>Sign Out</button>
-              ) : (
-                <button className={styles.navSignInButton} onClick={() => { closeMenu(); openAuthModal(); }}>Sign In</button>
-              )}
-            </li>
+            {!isAdminRoute && (
+              <li className={styles.mobileAuthOnly}>
+                {isAuthenticated ? (
+                  <button className={styles.navSignOutButton} onClick={handleSignOut}>Sign Out</button>
+                ) : (
+                  <button className={styles.navSignInButton} onClick={() => { closeMenu(); openAuthModal(); }}>Sign In</button>
+                )}
+              </li>
+            )}
           </ul>
         </nav>
 
@@ -83,7 +87,7 @@ export default function Header() {
             )}
           </Link>
 
-          {isAuthenticated ? (
+          {isAdminRoute ? null : isAuthenticated ? (
             <div className={styles.authMenu}>
               <button 
                 className={styles.userButton}
