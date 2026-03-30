@@ -7,18 +7,9 @@ export default function ProtectedRoute({ children }) {
   const [passcode, setPasscode] = useState('');
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    // Check if they already unlocked it this session
-    const isAuth = sessionStorage.getItem('admin_passcode_auth');
-    if (isAuth === 'true') {
-      setIsUnlocked(true);
-    }
-  }, []);
-
   const handleUnlock = (e) => {
     e.preventDefault();
     if (passcode === 'admin12345') {
-      sessionStorage.setItem('admin_passcode_auth', 'true');
       setIsUnlocked(true);
       setError(false);
     } else {
