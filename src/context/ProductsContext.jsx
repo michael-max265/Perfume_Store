@@ -15,8 +15,13 @@ export function ProductsProvider({ children }) {
     if (savedProducts) {
       setProducts(JSON.parse(savedProducts));
     } else {
-      setProducts(PERFUME_PRODUCTS);
-      localStorage.setItem('products', JSON.stringify(PERFUME_PRODUCTS));
+      // Initialize stock for the hardcoded fallback list
+      const initialProducts = PERFUME_PRODUCTS.map(p => ({
+        ...p,
+        stock: p.stock !== undefined ? p.stock : 10
+      }));
+      setProducts(initialProducts);
+      localStorage.setItem('products', JSON.stringify(initialProducts));
     }
   }, []);
 
@@ -36,8 +41,22 @@ export function ProductsProvider({ children }) {
     localStorage.setItem('products', JSON.stringify(updatedProducts));
   };
 
+  const purchaseItems = (cartItems) => {
+    setProducts((prev) => {
+      const newProducts = prev.map(p => {
+        const cartItem = cartItems.find(item => item.id === p.id);
+        if (cartItem) {
+          return { ...p, stock: Math.max(0, p.stock - cartItem.quantity) };
+        }
+        return p;
+      });
+      localStorage.setItem('products', JSON.stringify(newProducts));
+      return newProducts;
+    });
+  };
+
   return (
-    <ProductsContext.Provider value={{ products, addProduct, deleteProduct }}>
+    <ProductsContext.Provider value={{ products, addProduct, deleteProduct, purchaseItems }}>
       {children}
     </ProductsContext.Provider>
   );

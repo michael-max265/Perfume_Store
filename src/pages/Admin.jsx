@@ -13,6 +13,7 @@ export default function Admin() {
     description: '',
     category: 'women',
     image: '',
+    stock: 10,
   })
 
   const handleInputChange = (e) => {
@@ -29,6 +30,7 @@ export default function Admin() {
     const newProduct = {
       ...formData,
       price: parseFloat(formData.price),
+      stock: parseInt(formData.stock, 10),
       rating: 5.0, // Default rating for new products
       reviewCount: 0,
     }
@@ -43,6 +45,7 @@ export default function Admin() {
       description: '',
       category: 'women',
       image: '',
+      stock: 10,
     })
     setShowForm(false)
   }
@@ -116,6 +119,19 @@ export default function Admin() {
                 </select>
               </div>
 
+              <div className={styles.inputGroup}>
+                <label htmlFor="stock">Stock Quantity</label>
+                <input 
+                  type="number" 
+                  id="stock" 
+                  name="stock" 
+                  min="0"
+                  value={formData.stock} 
+                  onChange={handleInputChange} 
+                  required 
+                />
+              </div>
+
               <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
                 <label htmlFor="image">Image URL</label>
                 <input 
@@ -166,6 +182,7 @@ export default function Admin() {
               <th>Brand</th>
               <th>Category</th>
               <th>Price</th>
+              <th>Stock</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -178,7 +195,8 @@ export default function Admin() {
                 <td>{product.name}</td>
                 <td>{product.brand}</td>
                 <td style={{ textTransform: 'capitalize' }}>{product.category}</td>
-                <td>${product.price.toFixed(2)}</td>
+                <td>${product.price ? product.price.toFixed(2) : '0.00'}</td>
+                <td>{product.stock}</td>
                 <td>
                   <button 
                     className={styles.deleteButton}

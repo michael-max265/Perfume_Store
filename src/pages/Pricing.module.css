@@ -53,9 +53,10 @@
 }
 
 .bestValue {
-  background-color: #f0f0f0;
+  background-color: var(--bg-secondary);
   border-top: 3px solid #8b5a3c;
-  padding-top: 1rem;
+  padding: 2rem;
+  border-radius: 12px;
 }
 
 .bestValueLabel {
@@ -98,7 +99,7 @@
 }
 
 .filterBanner {
-  background-color: #fff8f5;
+  background-color: var(--bg-surface);
   border-left: 4px solid #8b5a3c;
   padding: 1rem;
   border-radius: 4px;
