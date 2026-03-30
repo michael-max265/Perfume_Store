@@ -9,7 +9,9 @@ export default function ProtectedRoute({ children }) {
 
   const handleUnlock = (e) => {
     e.preventDefault();
-    if (passcode === 'admin12345') {
+    const correctPasscode = import.meta.env.VITE_ADMIN_PASSCODE || 'admin12345';
+    
+    if (passcode === correctPasscode) {
       setIsUnlocked(true);
       setError(false);
     } else {
@@ -30,23 +32,23 @@ export default function ProtectedRoute({ children }) {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center', 
-        backgroundColor: '#121212',
+        backgroundColor: 'var(--bg-primary)',
         fontFamily: 'system-ui, -apple-system, sans-serif'
       }}>
         <div style={{
-          backgroundColor: '#1B1C22',
-          border: '1px solid #2a2d36',
+          backgroundColor: 'var(--bg-surface)',
+          border: '1px solid var(--border-color)',
           borderRadius: '16px',
           padding: '3rem 2.5rem',
           width: '90%',
           maxWidth: '420px',
           textAlign: 'center',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+          boxShadow: 'var(--card-shadow)',
           boxSizing: 'border-box'
         }}>
           <div style={{ fontSize: '3.5rem', marginBottom: '1.5rem', lineHeight: 1 }}>🔒</div>
-          <h2 style={{ color: '#ffffff', fontSize: '1.8rem', margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>Admin Access</h2>
-          <p style={{ color: '#8b949e', fontSize: '1rem', margin: '0 0 2rem 0' }}>Enter your passcode to view the dashboard.</p>
+          <h2 style={{ color: 'var(--text-primary)', fontSize: '1.8rem', margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>Admin Access</h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', margin: '0 0 2rem 0' }}>Enter your passcode to view the dashboard.</p>
           
           <form onSubmit={handleUnlock} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div style={{ textAlign: 'left' }}>
@@ -61,10 +63,10 @@ export default function ProtectedRoute({ children }) {
                 style={{
                   width: '100%',
                   padding: '1rem 1.25rem',
-                  backgroundColor: '#0D0E12',
-                  border: error ? '1px solid #f85149' : '1px solid #2a2d36',
+                  backgroundColor: 'var(--input-bg)',
+                  border: error ? '1px solid #f85149' : '1px solid var(--input-border)',
                   borderRadius: '12px',
-                  color: '#ffffff',
+                  color: 'var(--text-primary)',
                   fontSize: '1rem',
                   outline: 'none',
                   transition: 'border-color 0.2s',
@@ -103,13 +105,13 @@ export default function ProtectedRoute({ children }) {
               marginTop: '2rem',
               background: 'none',
               border: 'none',
-              color: '#8b949e',
+              color: 'var(--text-secondary)',
               fontSize: '0.95rem',
               cursor: 'pointer',
               padding: '0.5rem'
             }}
-            onMouseOver={(e) => e.target.style.color = '#c9d1d9'}
-            onMouseOut={(e) => e.target.style.color = '#8b949e'}
+            onMouseOver={(e) => e.target.style.color = 'var(--text-primary)'}
+            onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}
           >
             &larr; Back to site
           </button>
