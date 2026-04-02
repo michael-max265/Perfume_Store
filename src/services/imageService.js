@@ -41,7 +41,7 @@ export const getPerfumeImage = (perfumeName, id, productImage = null) => {
   
   // If product has a custom image URL provided, use it first
   if (productImage && productImage.trim() !== '') {
-    imageUrl = productImage;
+    imageUrl = productImage.trim();
   }
   // Check if we have a custom image for this perfume
   else if (PERFUME_IMAGE_MAP[perfumeName]) {
@@ -60,9 +60,14 @@ export const getPerfumeImage = (perfumeName, id, productImage = null) => {
     imageUrl = defaultImages[id % defaultImages.length];
   }
   
-  // Add cache-busting parameter to force browser to reload updated images
-  const separator = imageUrl.includes('?') ? '&' : '?';
-  return `${imageUrl}${separator}v=${id}`;
+  // Add cache-busting parameter only once, consistently
+  // Skip cache busting for Unsplash URLs (already optimized)
+  if (!imageUrl.includes('unsplash.com')) {
+    const separator = imageUrl.includes('?') ? '&' : '?';
+    return `${imageUrl}${separator}v=${id}&t=${Math.floor(Date.now() / 3600000)}`;
+  }
+  
+  return imageUrl;
 };
 
 export const getFallbackColor = (id) => {

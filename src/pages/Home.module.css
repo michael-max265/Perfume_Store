@@ -149,6 +149,13 @@
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   width: auto;
+  animation: fadeInUp 0.6s ease 0.5s backwards;
+}
+
+.viewAllButton:hover {
+  background-color: #5d3a26;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 90, 60, 0.3);
 }
 
 .categoriesSection {
@@ -342,6 +349,24 @@
   }
 }
 
+@media (max-width: 768px) {
+  .viewAllButton {
+    display: block !important;
+    padding: 0.9rem 2rem;
+    font-size: 0.95rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .viewAllButton:hover {
+    background-color: #5d3a26;
+    transform: translateY(-2px);
+  }
+}
+
 @media (max-width: 480px) {
   .hero {
     padding: 3.5rem 1.5rem 3.5rem 1.5rem;
@@ -386,10 +411,5 @@
     font-size: 0.95rem;
     margin-top: 2rem;
     margin-bottom: 1rem;
-  }
-
-  .viewAllButton:hover {
-    background-color: #5d3a26;
-    transform: translateY(-2px);
   }
 }

@@ -18,6 +18,16 @@ export default function ProductCard({ product, index = 0 }) {
   const fallbackColor = getFallbackColor(product.id)
   const displayImage = getPerfumeImage(product.name, product.id, product.image)
 
+  const handleImageError = useCallback(() => {
+    // Immediately show fallback on mobile, with delay on desktop for retry
+    const isMobile = window.innerWidth < 768;
+    const delay = isMobile ? 0 : 500;
+    
+    setTimeout(() => {
+      setImageError(true);
+    }, delay);
+  }, []);
+
   const handleAddToCart = useCallback(() => {
     addToCart(product)
   }, [addToCart, product])
@@ -50,8 +60,10 @@ export default function ProductCard({ product, index = 0 }) {
             src={displayImage}
             alt={product.name}
             className={styles.image}
-            onError={() => setImageError(true)}
+            onError={handleImageError}
             loading="lazy"
+            decoding="async"
+            crossOrigin="anonymous"
           />
         )}
         {imageError && (
