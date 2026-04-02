@@ -16,7 +16,7 @@ export default function ProductCard({ product, index = 0 }) {
   const [imageError, setImageError] = useState(false)
   
   const fallbackColor = getFallbackColor(product.id)
-  const displayImage = getPerfumeImage(product.name, product.id)
+  const displayImage = getPerfumeImage(product.name, product.id, product.image)
 
   const handleAddToCart = useCallback(() => {
     addToCart(product)

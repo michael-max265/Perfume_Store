@@ -36,7 +36,12 @@ const FALLBACK_COLORS = [
   '#F9B4D1', '#D4B5C4', '#B5D4E0', '#C4B5D4', '#E0D4B5'
 ];
 
-export const getPerfumeImage = (perfumeName, id) => {
+export const getPerfumeImage = (perfumeName, id, productImage = null) => {
+  // If product has a custom image URL provided, use it first
+  if (productImage && productImage.trim() !== '') {
+    return productImage;
+  }
+  
   // Check if we have a custom image for this perfume
   if (PERFUME_IMAGE_MAP[perfumeName]) {
     return PERFUME_IMAGE_MAP[perfumeName];

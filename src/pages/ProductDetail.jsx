@@ -147,7 +147,7 @@ export default function ProductDetail() {
     }
   }
 
-  const displayImage = getPerfumeImage(product.name, product.id)
+  const displayImage = getPerfumeImage(product.name, product.id, product.image)
 
   return (
     <main className={styles.container}>

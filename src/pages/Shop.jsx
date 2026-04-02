@@ -9,6 +9,7 @@ export default function Shop() {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedBrand, setSelectedBrand] = useState('all')
   const [priceRange, setPriceRange] = useState('all')
+  const [selectedRating, setSelectedRating] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
 
   // Dynamically get unique brands
@@ -29,6 +30,12 @@ export default function Shop() {
     if (priceRange === '75-100' && (product.price < 75 || product.price > 100))
       return false
     if (priceRange === 'over100' && product.price < 100) return false
+
+    // Apply rating filter
+    if (selectedRating !== 'all') {
+      const minRating = parseFloat(selectedRating)
+      if (!product.rating || product.rating < minRating) return false
+    }
 
     // Search by name (case-insensitive)
     if (searchQuery.trim() !== '') {
@@ -140,6 +147,29 @@ export default function Shop() {
                   onChange={() => setPriceRange(price.value)}
                 />
                 <label htmlFor={`price-${price.value}`}>{price.label}</label>
+              </div>
+            ))}
+          </div>
+
+          {/* Rating Filter */}
+          <div className={styles.filterGroup}>
+            <h3 className={styles.filterTitle}>Rating</h3>
+            {[
+              { value: 'all', label: 'All Ratings' },
+              { value: '5', label: '★★★★★ & above' },
+              { value: '4', label: '★★★★ & above' },
+              { value: '3', label: '★★★ & above' },
+              { value: '2', label: '★★ & above' },
+              { value: '1', label: '★ & above' },
+            ].map((rating) => (
+              <div key={rating.value} className={styles.filterOption}>
+                <input
+                  type="checkbox"
+                  id={`rating-${rating.value}`}
+                  checked={selectedRating === rating.value}
+                  onChange={() => setSelectedRating(rating.value)}
+                />
+                <label htmlFor={`rating-${rating.value}`}>{rating.label}</label>
               </div>
             ))}
           </div>
