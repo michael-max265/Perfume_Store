@@ -6,8 +6,9 @@ import { useProducts } from '../context/ProductsContext'
 import styles from './Home.module.css'
 
 export default function Home() {
-  const { products } = useProducts()
+  const { products, getTotalReviewsFromTopProducts } = useProducts()
   const [featuredProducts, setFeaturedProducts] = useState([])
+  const [totalTopReviews, setTotalTopReviews] = useState(0)
   const [newsletterStatus, setNewsletterStatus] = useState('idle'); // idle | loading | success | error
   const [newsletterMessage, setNewsletterMessage] = useState('');
 
@@ -15,7 +16,10 @@ export default function Home() {
     // Get first 4 featured products (highest rated)
     const featured = products.length > 0 ? products.slice(0, 4) : []
     setFeaturedProducts(featured)
-  }, [products])
+    // Auto-calculate total reviews from top products
+    const totalReviews = getTotalReviewsFromTopProducts(4)
+    setTotalTopReviews(totalReviews)
+  }, [products, getTotalReviewsFromTopProducts])
 
   return (
     <main>
@@ -45,7 +49,14 @@ export default function Home() {
 
       {/* Featured Products */}
       <section className={styles.featuredSection}>
-        <h2 className={styles.sectionTitle}>Featured Collections</h2>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>Featured Collections</h2>
+          {totalTopReviews > 0 && (
+            <p className={styles.reviewsCount}>
+              ⭐ {totalTopReviews} verified customer review{totalTopReviews !== 1 ? 's' : ''}
+            </p>
+          )}
+        </div>
         <div className={styles.grid}>
           {featuredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />

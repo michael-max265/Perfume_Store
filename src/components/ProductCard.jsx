@@ -1,10 +1,12 @@
 import { useCallback, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { getPerfumeImage, getFallbackColor } from '../services/imageService'
 import styles from './ProductCard.module.css'
 
 export default function ProductCard({ product, index = 0 }) {
+  const navigate = useNavigate()
   const { addToCart } = useCart()
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist()
   const inWishlist = isInWishlist(product.id)
@@ -16,6 +18,10 @@ export default function ProductCard({ product, index = 0 }) {
   const handleAddToCart = useCallback(() => {
     addToCart(product)
   }, [addToCart, product])
+
+  const handleProductClick = useCallback(() => {
+    navigate(`/product/${product.id}`)
+  }, [navigate, product.id])
 
   const handleWishlistToggle = useCallback((e) => {
     e.preventDefault()
@@ -61,7 +67,7 @@ export default function ProductCard({ product, index = 0 }) {
         </button>
       </div>
 
-      <div className={styles.content}>
+      <div className={styles.content} onClick={handleProductClick} role="button" tabIndex="0">
         <div className={styles.brand}>{product.brand || 'Premium'}</div>
         <h3 className={styles.name}>{product.name}</h3>
         <p className={styles.description}>{product.description}</p>

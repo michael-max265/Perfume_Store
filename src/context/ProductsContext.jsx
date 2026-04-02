@@ -89,8 +89,29 @@ export function ProductsProvider({ children }) {
     localStorage.setItem('products', JSON.stringify(updatedProducts));
   };
 
+  const getTotalReviewsFromTopProducts = (topProductCount = 4) => {
+    return products.slice(0, topProductCount).reduce((total, product) => {
+      return total + (product.reviewCount || 0);
+    }, 0);
+  };
+
+  const getTotalReviewsCount = () => {
+    return products.reduce((total, product) => {
+      return total + (product.reviewCount || 0);
+    }, 0);
+  };
+
   return (
-    <ProductsContext.Provider value={{ products, addProduct, deleteProduct, updateProduct, purchaseItems, addReview }}>
+    <ProductsContext.Provider value={{ 
+      products, 
+      addProduct, 
+      deleteProduct, 
+      updateProduct, 
+      purchaseItems, 
+      addReview,
+      getTotalReviewsFromTopProducts,
+      getTotalReviewsCount
+    }}>
       {children}
     </ProductsContext.Provider>
   );
