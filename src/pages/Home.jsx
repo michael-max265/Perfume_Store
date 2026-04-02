@@ -65,6 +65,9 @@ export default function Home() {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
+        <Link to="/shop" className={styles.viewAllButton}>
+          View All Products
+        </Link>
       </section>
 
       {/* Categories */}
