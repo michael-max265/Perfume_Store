@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useProducts } from '../context/ProductsContext'
 import { getPerfumeImage } from '../services/imageService'
 import styles from './Admin.module.css'
 
 export default function Admin() {
   const { products, addProduct, deleteProduct, updateProduct, addReview } = useProducts()
+  const fileInputRef = useRef(null)
   
   const [showForm, setShowForm] = useState(false)
   const [showReviewForm, setShowReviewForm] = useState(false)
@@ -117,6 +118,59 @@ export default function Admin() {
     alert(editingId ? '✓ Product updated successfully! Changes will reflect immediately.' : '✓ Product added successfully!')
   }
 
+  const handleExportData = () => {
+    const dataToExport = {
+      products,
+      exportedAt: new Date().toISOString(),
+    }
+    const dataStr = JSON.stringify(dataToExport, null, 2)
+    const dataBlob = new Blob([dataStr], { type: 'application/json' })
+    const url = URL.createObjectURL(dataBlob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `perfume-store-backup-${Date.now()}.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+    alert('✓ Data exported successfully! File downloaded.')
+  }
+
+  const handleImportData = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      try {
+        const importedData = JSON.parse(event.target?.result || '{}')
+        if (importedData.products && Array.isArray(importedData.products)) {
+          // Overwrite localStorage with imported data
+          localStorage.setItem('products', JSON.stringify(importedData.products))
+          // Reload page to reflect changes
+          alert('✓ Data imported successfully! Refreshing page...')
+          window.location.reload()
+        } else {
+          alert('❌ Invalid file format. Please use an exported backup file.')
+        }
+      } catch (error) {
+        alert('❌ Error reading file. Make sure it\'s a valid exported backup.')
+        console.error('Import error:', error)
+      }
+    }
+    reader.readAsText(file)
+  }
+
+  const handleClearData = () => {
+    if (window.confirm('⚠️ WARNING: This will DELETE all products! Are you sure? This cannot be undone.')) {
+      if (window.confirm('Are you REALLY sure? This is permanent!')) {
+        localStorage.setItem('products', JSON.stringify([]))
+        alert('✓ All products cleared. Refreshing page...')
+        window.location.reload()
+      }
+    }
+  }
+
   return (
     <div className={styles.adminContainer}>
       <div className={styles.adminHeader}>
@@ -145,6 +199,29 @@ export default function Admin() {
           >
             {showReviewForm ? 'Cancel' : 'Add Review'}
           </button>
+          <button 
+            className={styles.addButton}
+            onClick={handleExportData}
+            style={{ backgroundColor: '#27ae60' }}
+            title="Download backup of all products"
+          >
+            📥 Export Data
+          </button>
+          <button 
+            className={styles.addButton}
+            onClick={() => fileInputRef.current?.click()}
+            style={{ backgroundColor: '#3498db' }}
+            title="Upload backup file to this device"
+          >
+            📤 Import Data
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            onChange={handleImportData}
+            style={{ display: 'none' }}
+          />
         </div>
       </div>
 
