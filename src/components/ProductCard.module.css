@@ -234,6 +234,13 @@
   border: none;
   cursor: pointer;
   margin-top: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card:hover .addButton {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 @media (max-width: 768px) {
