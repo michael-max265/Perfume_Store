@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useProducts } from '../context/ProductsContext'
+import { getPerfumeImage } from '../services/imageService'
 import styles from './Admin.module.css'
 
 export default function Admin() {
@@ -111,6 +112,9 @@ export default function Admin() {
     })
     setEditingId(null)
     setShowForm(false)
+    
+    // Show success message
+    alert(editingId ? '✓ Product updated successfully! Changes will reflect immediately.' : '✓ Product added successfully!')
   }
 
   return (
@@ -361,7 +365,7 @@ export default function Admin() {
             {products.map((product) => (
               <tr key={product.id}>
                 <td>
-                  <img src={product.image} alt={product.name} />
+                  <img src={getPerfumeImage(product.name, product.id, product.image)} alt={product.name} />
                 </td>
                 <td>{product.name}</td>
                 <td>{product.brand}</td>

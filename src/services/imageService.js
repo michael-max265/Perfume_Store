@@ -37,27 +37,32 @@ const FALLBACK_COLORS = [
 ];
 
 export const getPerfumeImage = (perfumeName, id, productImage = null) => {
+  let imageUrl = '';
+  
   // If product has a custom image URL provided, use it first
   if (productImage && productImage.trim() !== '') {
-    return productImage;
+    imageUrl = productImage;
   }
-  
   // Check if we have a custom image for this perfume
-  if (PERFUME_IMAGE_MAP[perfumeName]) {
-    return PERFUME_IMAGE_MAP[perfumeName];
+  else if (PERFUME_IMAGE_MAP[perfumeName]) {
+    imageUrl = PERFUME_IMAGE_MAP[perfumeName];
+  }
+  // Default to a aesthetically pleasing perfume/flower image
+  else {
+    const defaultImages = [
+      'https://images.unsplash.com/photo-1494252499848-1da0e9b39469?auto=format&fit=crop&w=500&q=80',
+      'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=500&q=80',
+      'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=500&q=80',
+      'https://images.unsplash.com/photo-1575457595142-38b6eef1ff28?auto=format&fit=crop&w=500&q=80',
+      'https://images.unsplash.com/photo-1577720643272-265e434f6f6e?auto=format&fit=crop&w=500&q=80',
+      'https://images.unsplash.com/photo-1508737763262-07a07d71fe3e?auto=format&fit=crop&w=500&q=80',
+    ];
+    imageUrl = defaultImages[id % defaultImages.length];
   }
   
-  // Default to a aesthetically pleasing perfume/flower image
-  const defaultImages = [
-    'https://images.unsplash.com/photo-1494252499848-1da0e9b39469?auto=format&fit=crop&w=500&q=80',
-    'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=500&q=80',
-    'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=500&q=80',
-    'https://images.unsplash.com/photo-1575457595142-38b6eef1ff28?auto=format&fit=crop&w=500&q=80',
-    'https://images.unsplash.com/photo-1577720643272-265e434f6f6e?auto=format&fit=crop&w=500&q=80',
-    'https://images.unsplash.com/photo-1508737763262-07a07d71fe3e?auto=format&fit=crop&w=500&q=80',
-  ];
-  
-  return defaultImages[id % defaultImages.length];
+  // Add cache-busting parameter to force browser to reload updated images
+  const separator = imageUrl.includes('?') ? '&' : '?';
+  return `${imageUrl}${separator}v=${id}`;
 };
 
 export const getFallbackColor = (id) => {
