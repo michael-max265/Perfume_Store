@@ -465,6 +465,12 @@
   transform: translateY(-2px);
 }
 
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .cancelButton {
   flex: 1;
   padding: 0.75rem 1.5rem;
@@ -478,8 +484,81 @@
   transition: all 0.3s ease;
 }
 
-.cancelButton:hover {
+.cancelButton:hover:not(:disabled) {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+.cancelButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.success {
+  background-color: #e8f9e8;
+  color: #27ae60;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  border-left: 4px solid #27ae60;
+  animation: slideInDown 0.4s ease;
+  font-weight: 500;
+}
+
+.reviewControls {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(139, 90, 60, 0.05);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .reviewControls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.sortControl,
+.filterControl {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sortControl label,
+.filterControl label {
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+
+.sortControl select,
+.filterControl select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease;
+}
+
+.sortControl select:hover,
+.filterControl select:hover {
+  border-color: #8b5a3c;
+}
+
+.sortControl select:focus,
+.filterControl select:focus {
+  outline: none;
+  border-color: #8b5a3c;
+  box-shadow: 0 0 0 3px rgba(139, 90, 60, 0.1);
 }
 
 /* Reviews List */

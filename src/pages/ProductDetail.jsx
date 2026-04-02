@@ -27,6 +27,10 @@ export default function ProductDetail() {
   })
   const [imageError, setImageError] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [sortBy, setSortBy] = useState('recent') // recent, helpful, highest, lowest
+  const [filterRating, setFilterRating] = useState(0) // 0 = all ratings
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     const foundProduct = products.find(p => p.id === parseInt(id))
@@ -62,6 +66,7 @@ export default function ProductDetail() {
   const handleSubmitReview = (e) => {
     e.preventDefault()
     setSubmitError('')
+    setSubmitSuccess(false)
 
     if (!reviewForm.customerName.trim()) {
       setSubmitError('Please enter your name')
@@ -76,18 +81,55 @@ export default function ProductDetail() {
       return
     }
 
-    addReview(product.id, {
-      customerName: reviewForm.customerName.trim(),
-      rating: parseInt(reviewForm.rating),
-      text: reviewForm.text.trim()
-    })
+    setIsSubmitting(true)
+    
+    // Simulate slight delay for better UX
+    setTimeout(() => {
+      try {
+        addReview(product.id, {
+          customerName: reviewForm.customerName.trim(),
+          rating: parseInt(reviewForm.rating),
+          text: reviewForm.text.trim()
+        })
 
-    setReviewForm({
-      customerName: '',
-      rating: 5,
-      text: ''
-    })
-    setShowReviewForm(false)
+        setReviewForm({
+          customerName: '',
+          rating: 5,
+          text: ''
+        })
+        setSubmitSuccess(true)
+        setShowReviewForm(false)
+        
+        // Auto-close success message after 3 seconds
+        setTimeout(() => setSubmitSuccess(false), 3000)
+      } catch (error) {
+        setSubmitError('Failed to submit review. Please try again.')
+      } finally {
+        setIsSubmitting(false)
+      }
+    }, 500)
+  }
+
+  const getSortedAndFilteredReviews = () => {
+    let filtered = reviews
+    
+    // Filter by rating
+    if (filterRating > 0) {
+      filtered = filtered.filter(r => r.rating === filterRating)
+    }
+    
+    // Sort reviews
+    switch (sortBy) {
+      case 'helpful':
+        return filtered.sort((a, b) => (b.helpful || 0) - (a.helpful || 0))
+      case 'highest':
+        return filtered.sort((a, b) => b.rating - a.rating)
+      case 'lowest':
+        return filtered.sort((a, b) => a.rating - b.rating)
+      case 'recent':
+      default:
+        return filtered.sort((a, b) => new Date(b.date) - new Date(a.date))
+    }
   }
 
   const handleAddReviewClick = () => {
@@ -253,6 +295,7 @@ export default function ProductDetail() {
                 })}
                 placeholder="Enter your name"
                 maxLength={100}
+                disabled={isSubmitting}
               />
             </div>
 
@@ -265,6 +308,7 @@ export default function ProductDetail() {
                   ...reviewForm,
                   rating: parseInt(e.target.value)
                 })}
+                disabled={isSubmitting}
               >
                 <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
                 <option value="4">⭐⭐⭐⭐ Very Good</option>
@@ -286,18 +330,24 @@ export default function ProductDetail() {
                 placeholder="Share your experience with this perfume..."
                 rows={5}
                 maxLength={1000}
+                disabled={isSubmitting}
               />
               <small>{reviewForm.text.length}/1000</small>
             </div>
 
             <div className={styles.formActions}>
-              <button type="submit" className={styles.submitButton}>
-                Submit Review
+              <button 
+                type="submit" 
+                className={styles.submitButton}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit Review'}
               </button>
               <button
                 type="button"
                 className={styles.cancelButton}
                 onClick={() => setShowReviewForm(false)}
+                disabled={isSubmitting}
               >
                 Cancel
               </button>
@@ -305,12 +355,56 @@ export default function ProductDetail() {
           </form>
         )}
 
+        {/* Success Message */}
+        {submitSuccess && (
+          <div className={styles.success}>
+            ✅ Thank you! Your review has been posted successfully.
+          </div>
+        )}
+
+        {/* Filter and Sort Controls */}
+        {reviews.length > 0 && (
+          <div className={styles.reviewControls}>
+            <div className={styles.sortControl}>
+              <label htmlFor="sort">Sort by:</label>
+              <select 
+                id="sort" 
+                value={sortBy} 
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <option value="recent">Most Recent</option>
+                <option value="highest">Highest Rating</option>
+                <option value="lowest">Lowest Rating</option>
+                <option value="helpful">Most Helpful</option>
+              </select>
+            </div>
+
+            <div className={styles.filterControl}>
+              <label htmlFor="filter">Filter by rating:</label>
+              <select 
+                id="filter" 
+                value={filterRating} 
+                onChange={(e) => setFilterRating(parseInt(e.target.value))}
+              >
+                <option value="0">All Ratings</option>
+                <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
+                <option value="4">⭐⭐⭐⭐ (4 Stars)</option>
+                <option value="3">⭐⭐⭐ (3 Stars)</option>
+                <option value="2">⭐⭐ (2 Stars)</option>
+                <option value="1">⭐ (1 Star)</option>
+              </select>
+            </div>
+          </div>
+        )}
+
         {/* Reviews List */}
         <div className={styles.reviewsList}>
           {reviews.length === 0 ? (
             <p className={styles.noReviews}>No reviews yet. Be the first to review!</p>
+          ) : getSortedAndFilteredReviews().length === 0 ? (
+            <p className={styles.noReviews}>No reviews match your filter. Try a different rating.</p>
           ) : (
-            reviews.map((review) => (
+            getSortedAndFilteredReviews().map((review) => (
               <div key={review.id} className={styles.reviewCard}>
                 <div className={styles.reviewHeader}>
                   <div>
