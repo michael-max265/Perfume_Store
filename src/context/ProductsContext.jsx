@@ -63,8 +63,34 @@ export function ProductsProvider({ children }) {
     });
   };
 
+  const addReview = (productId, review) => {
+    const updatedProducts = products.map(product => {
+      if (product.id === productId) {
+        const reviews = product.reviews || [];
+        const updatedReviews = [...reviews, {
+          id: Date.now(),
+          ...review,
+          date: new Date().toISOString()
+        }];
+        
+        // Calculate average rating
+        const avgRating = updatedReviews.reduce((sum, r) => sum + r.rating, 0) / updatedReviews.length;
+        
+        return {
+          ...product,
+          reviews: updatedReviews,
+          rating: parseFloat(avgRating.toFixed(1)),
+          reviewCount: updatedReviews.length
+        };
+      }
+      return product;
+    });
+    setProducts(updatedProducts);
+    localStorage.setItem('products', JSON.stringify(updatedProducts));
+  };
+
   return (
-    <ProductsContext.Provider value={{ products, addProduct, deleteProduct, updateProduct, purchaseItems }}>
+    <ProductsContext.Provider value={{ products, addProduct, deleteProduct, updateProduct, purchaseItems, addReview }}>
       {children}
     </ProductsContext.Provider>
   );

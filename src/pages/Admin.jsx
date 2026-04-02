@@ -3,9 +3,10 @@ import { useProducts } from '../context/ProductsContext'
 import styles from './Admin.module.css'
 
 export default function Admin() {
-  const { products, addProduct, deleteProduct, updateProduct } = useProducts()
+  const { products, addProduct, deleteProduct, updateProduct, addReview } = useProducts()
   
   const [showForm, setShowForm] = useState(false)
+  const [showReviewForm, setShowReviewForm] = useState(false)
   const [editingId, setEditingId] = useState(null)
   const [formData, setFormData] = useState({
     name: '',
@@ -16,6 +17,12 @@ export default function Admin() {
     image: '',
     stock: 10,
   })
+  const [reviewData, setReviewData] = useState({
+    productId: '',
+    customerName: '',
+    rating: 5,
+    reviewText: '',
+  })
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -23,6 +30,39 @@ export default function Admin() {
       ...prev,
       [name]: value
     }))
+  }
+
+  const handleReviewInputChange = (e) => {
+    const { name, value } = e.target
+    setReviewData((prev) => ({
+      ...prev,
+      [name]: name === 'rating' ? parseInt(value) : value
+    }))
+  }
+
+  const handleReviewSubmit = (e) => {
+    e.preventDefault()
+    
+    if (!reviewData.productId || !reviewData.customerName || !reviewData.reviewText) {
+      alert('Please fill in all review fields')
+      return
+    }
+
+    addReview(parseInt(reviewData.productId), {
+      customerName: reviewData.customerName,
+      rating: reviewData.rating,
+      text: reviewData.reviewText,
+    })
+
+    // Reset form
+    setReviewData({
+      productId: '',
+      customerName: '',
+      rating: 5,
+      reviewText: '',
+    })
+    setShowReviewForm(false)
+    alert('Review added successfully!')
   }
 
   const handleEdit = (product) => {
@@ -77,18 +117,31 @@ export default function Admin() {
     <div className={styles.adminContainer}>
       <div className={styles.adminHeader}>
         <h1 className={styles.title}>Admin Dashboard</h1>
-        <button 
-          className={styles.addButton}
-          onClick={() => {
-            if (showForm) {
-              setEditingId(null);
-              setFormData({ name: '', brand: '', price: '', description: '', category: 'women', image: '', stock: 10 });
-            }
-            setShowForm(!showForm)
-          }}
-        >
-          {showForm ? 'Cancel' : 'Add New Product'}
-        </button>
+        <div className={styles.buttonGroup}>
+          <button 
+            className={styles.addButton}
+            onClick={() => {
+              if (showForm) {
+                setEditingId(null);
+                setFormData({ name: '', brand: '', price: '', description: '', category: 'women', image: '', stock: 10 });
+              }
+              setShowForm(!showForm)
+            }}
+          >
+            {showForm ? 'Cancel' : 'Add New Product'}
+          </button>
+          <button 
+            className={styles.reviewButton}
+            onClick={() => {
+              if (showReviewForm) {
+                setReviewData({ productId: '', customerName: '', rating: 5, reviewText: '' });
+              }
+              setShowReviewForm(!showReviewForm)
+            }}
+          >
+            {showReviewForm ? 'Cancel' : 'Add Review'}
+          </button>
+        </div>
       </div>
 
       {showForm && (
@@ -200,6 +253,91 @@ export default function Admin() {
               </button>
               <button type="submit" className={styles.submitButton}>
                 {editingId ? 'Update Product' : 'Save Product'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {showReviewForm && (
+        <div className={styles.formContainer}>
+          <h2 className={styles.formTitle}>Add New Review</h2>
+          <form onSubmit={handleReviewSubmit}>
+            <div className={styles.formGrid}>
+              <div className={styles.inputGroup}>
+                <label htmlFor="productId">Select Product</label>
+                <select 
+                  id="productId" 
+                  name="productId" 
+                  value={reviewData.productId} 
+                  onChange={handleReviewInputChange}
+                  required
+                >
+                  <option value="">-- Choose a product --</option>
+                  {products.map((product) => (
+                    <option key={product.id} value={product.id}>
+                      {product.name} - {product.brand}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label htmlFor="customerName">Customer Name</label>
+                <input 
+                  type="text" 
+                  id="customerName" 
+                  name="customerName" 
+                  value={reviewData.customerName} 
+                  onChange={handleReviewInputChange} 
+                  placeholder="e.g., John Doe"
+                  required 
+                />
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label htmlFor="rating">Rating (1-5 stars)</label>
+                <select 
+                  id="rating" 
+                  name="rating" 
+                  value={reviewData.rating} 
+                  onChange={handleReviewInputChange}
+                >
+                  <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
+                  <option value="4">⭐⭐⭐⭐ 4 Stars</option>
+                  <option value="3">⭐⭐⭐ 3 Stars</option>
+                  <option value="2">⭐⭐ 2 Stars</option>
+                  <option value="1">⭐ 1 Star</option>
+                </select>
+              </div>
+
+              <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
+                <label htmlFor="reviewText">Review Text</label>
+                <textarea 
+                  id="reviewText" 
+                  name="reviewText" 
+                  value={reviewData.reviewText} 
+                  onChange={handleReviewInputChange}
+                  placeholder="Write the review here..."
+                  rows="4"
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div className={styles.formActions}>
+              <button 
+                type="button" 
+                className={styles.cancelButton}
+                onClick={() => {
+                  setReviewData({ productId: '', customerName: '', rating: 5, reviewText: '' });
+                  setShowReviewForm(false);
+                }}
+              >
+                Cancel
+              </button>
+              <button type="submit" className={styles.submitButton}>
+                Add Review
               </button>
             </div>
           </form>
