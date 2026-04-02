@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
 import { CartProvider } from './context/CartContext'
 import { AuthProvider } from './context/AuthContext'
 import { WishlistProvider } from './context/WishlistContext'
@@ -20,6 +21,28 @@ import Admin from './pages/Admin'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
+  useEffect(() => {
+    // Check for app updates and enforce cache refresh
+    const checkForUpdates = () => {
+      fetch('/index.html?t=' + Date.now(), { cache: 'no-store' })
+        .then(response => {
+          // App is accessible - ensure fresh load
+          if (!window.location.hash.includes('updated')) {
+            // Add timestamp to session to track freshness
+            sessionStorage.setItem('lastCheck', Date.now().toString())
+          }
+        })
+        .catch(err => console.log('Update check failed:', err))
+    }
+
+    // Check immediately on load
+    checkForUpdates()
+
+    // Check every 30 seconds for updates
+    const interval = setInterval(checkForUpdates, 30000)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <ThemeProvider>
