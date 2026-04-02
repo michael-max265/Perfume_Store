@@ -1,51 +1,11 @@
-import { createContext, useContext, useState, useCallback, useEffect } from 'react'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
-import { db } from '../config/firebase'
+import { createContext, useContext, useState, useCallback } from 'react'
 import { useAuth } from './AuthContext'
 
 const CartContext = createContext()
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([])
-  const { isAuthenticated, user, openAuthModal } = useAuth()
-  const [loadingCart, setLoadingCart] = useState(false)
-
-  // Load cart from Firestore when user logs in
-  useEffect(() => {
-    if (isAuthenticated && user?.uid) {
-      loadCartFromFirestore()
-    }
-  }, [isAuthenticated, user?.uid])
-
-  const loadCartFromFirestore = async () => {
-    if (!user?.uid) return
-    try {
-      setLoadingCart(true)
-      const cartRef = doc(db, 'userCarts', user.uid)
-      const cartDoc = await getDoc(cartRef)
-      if (cartDoc.exists()) {
-        setCart(cartDoc.data().items || [])
-      }
-    } catch (err) {
-      console.error('Error loading cart from Firestore:', err)
-    } finally {
-      setLoadingCart(false)
-    }
-  }
-
-  const saveCartToFirestore = async (cartItems) => {
-    if (!user?.uid) return
-    try {
-      const cartRef = doc(db, 'userCarts', user.uid)
-      await setDoc(cartRef, {
-        items: cartItems,
-        updatedAt: new Date(),
-        userId: user.uid,
-      })
-    } catch (err) {
-      console.error('Error saving cart to Firestore:', err)
-    }
-  }
+  const { isAuthenticated, openAuthModal } = useAuth()
 
   const addToCart = useCallback((product) => {
     if (!isAuthenticated) {
@@ -61,30 +21,20 @@ export const CartProvider = ({ children }) => {
         return prevCart;
       }
 
-      let updatedCart
       if (existingItem) {
-        updatedCart = prevCart.map((item) =>
+        return prevCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         )
-      } else {
-        updatedCart = [...prevCart, { ...product, quantity: 1 }]
       }
-      
-      // Save to Firestore
-      saveCartToFirestore(updatedCart)
-      return updatedCart
+      return [...prevCart, { ...product, quantity: 1 }]
     })
-  }, [isAuthenticated, openAuthModal, user?.uid])
+  }, [isAuthenticated, openAuthModal])
 
   const removeFromCart = useCallback((productId) => {
-    setCart((prevCart) => {
-      const updatedCart = prevCart.filter((item) => item.id !== productId)
-      saveCartToFirestore(updatedCart)
-      return updatedCart
-    })
-  }, [user?.uid])
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId))
+  }, [])
 
   const updateQuantity = useCallback((productId, quantity) => {
     if (quantity <= 0) {
@@ -97,18 +47,15 @@ export const CartProvider = ({ children }) => {
         alert("You've reached the limit! There's no more of this item available in stock.");
         return prevCart;
       }
-      const updatedCart = prevCart.map((item) =>
+      return prevCart.map((item) =>
         item.id === productId ? { ...item, quantity } : item
       );
-      saveCartToFirestore(updatedCart)
-      return updatedCart
     });
-  }, [removeFromCart, user?.uid])
+  }, [removeFromCart])
 
   const clearCart = useCallback(() => {
     setCart([])
-    saveCartToFirestore([])
-  }, [user?.uid])
+  }, [])
 
   const getTotalPrice = useCallback(() => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0)
