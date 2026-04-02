@@ -95,6 +95,16 @@
   color: var(--text-primary);
 }
 
+.inputGroup select option {
+  color: var(--text-primary);
+}
+
+.inputGroup select option:checked {
+  background: linear-gradient(#FFD700, #FFD700);
+  background-color: #FFD700 !important;
+  color: #000 !important;
+}
+
 .inputGroup textarea {
   padding: 0.75rem;
   background: var(--bg-primary);

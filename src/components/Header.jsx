@@ -50,7 +50,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.headerContent}>
         <Link to="/" className={styles.logo} onClick={closeMenu}>
-          <FontAwesomeIcon icon={faHeartRegular} style={{ marginRight: '0.5rem', color: '#e74c3c' }} />
+          
           Perfume Store
         </Link>
 

@@ -201,7 +201,7 @@ export default function ProductDetail() {
           <div className={styles.ratingSection}>
             <div className={styles.ratingDisplay}>
               <span className={styles.stars}>
-                <FontAwesomeIcon icon={faStarSolid} style={{ color: '#f39c12', marginRight: '0.25rem' }} />
+                <FontAwesomeIcon icon={faStarSolid} style={{ color: '#FFD700', marginRight: '0.25rem' }} />
                 {product.rating?.toFixed(1) || 'N/A'}
               </span>
               <span className={styles.reviewCount}>

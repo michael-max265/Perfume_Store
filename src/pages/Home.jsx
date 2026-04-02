@@ -55,7 +55,7 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>Featured Collections</h2>
           {totalTopReviews > 0 && (
             <p className={styles.reviewsCount}>
-              <FontAwesomeIcon icon={faStar} style={{ color: '#f39c12', marginRight: '0.5rem' }} />
+              <FontAwesomeIcon icon={faStar} style={{ color: '#FFD700', marginRight: '0.5rem' }} />
               {totalTopReviews} verified customer review{totalTopReviews !== 1 ? 's' : ''}
             </p>
           )}

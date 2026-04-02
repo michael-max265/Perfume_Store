@@ -82,7 +82,7 @@ export default function Pricing() {
           >
             {isBestValue && (
               <div className={styles.bestValueLabel}>
-                <FontAwesomeIcon icon={faStar} style={{ marginRight: '0.5rem', color: '#f39c12' }} />
+                <FontAwesomeIcon icon={faStar} style={{ marginRight: '0.5rem', color: '#FFD700' }} />
                 Best Value
               </div>
             )}

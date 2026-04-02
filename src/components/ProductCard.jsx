@@ -83,7 +83,7 @@ export default function ProductCard({ product, index = 0 }) {
         {product.rating && (
           <div className={styles.rating}>
             <span className={styles.stars}>
-              <FontAwesomeIcon icon={faStarSolid} style={{ color: '#f39c12', marginRight: '0.25rem' }} />
+              <FontAwesomeIcon icon={faStarSolid} style={{ color: '#FFD700', marginRight: '0.25rem' }} />
               {product.rating.toFixed(1)}
             </span>
             <span className={styles.reviewCount}>

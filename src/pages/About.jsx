@@ -45,7 +45,7 @@ export default function About() {
             <p>Free shipping on orders over $100</p>
           </div>
           <div className={styles.featureItem}>
-            <h3><FontAwesomeIcon icon={faStar} style={{ marginRight: '0.5rem', color: '#f39c12' }} />Expert Curation</h3>
+            <h3><FontAwesomeIcon icon={faStar} style={{ marginRight: '0.5rem', color: '#FFD700' }} />Expert Curation</h3>
             <p>Handpicked fragrances for quality</p>
           </div>
           <div className={styles.featureItem}>

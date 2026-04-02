@@ -412,6 +412,16 @@
   transition: border-color 0.3s ease;
 }
 
+.formGroup select option {
+  color: var(--text-primary);
+}
+
+.formGroup select option:checked {
+  background: linear-gradient(#FFD700, #FFD700);
+  background-color: #FFD700 !important;
+  color: #000 !important;
+}
+
 .formGroup input:focus,
 .formGroup select:focus,
 .formGroup textarea:focus {
@@ -547,6 +557,18 @@
   background-color: var(--bg-surface);
   color: var(--text-primary);
   transition: border-color 0.3s ease;
+}
+
+.sortControl select option,
+.filterControl select option {
+  color: var(--text-primary);
+}
+
+.sortControl select option:checked,
+.filterControl select option:checked {
+  background: linear-gradient(#FFD700, #FFD700);
+  background-color: #FFD700 !important;
+  color: #000 !important;
 }
 
 .sortControl select:hover,
