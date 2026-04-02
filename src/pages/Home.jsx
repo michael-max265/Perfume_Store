@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { subscribeToNewsletter } from '../services/emailService'
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 import ProductCard from '../components/ProductCard'
 import { useProducts } from '../context/ProductsContext'
 import styles from './Home.module.css'
@@ -53,7 +55,8 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>Featured Collections</h2>
           {totalTopReviews > 0 && (
             <p className={styles.reviewsCount}>
-              ⭐ {totalTopReviews} verified customer review{totalTopReviews !== 1 ? 's' : ''}
+              <FontAwesomeIcon icon={faStar} style={{ color: '#f39c12', marginRight: '0.5rem' }} />
+              {totalTopReviews} verified customer review{totalTopReviews !== 1 ? 's' : ''}
             </p>
           )}
         </div>

@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTruck, faStar, faGift, faGem, faSync } from '@fortawesome/free-solid-svg-icons'
 import styles from './About.module.css'
 
 export default function About() {
@@ -39,23 +41,23 @@ export default function About() {
             <p>100% genuine products, guaranteed</p>
           </div>
           <div className={styles.featureItem}>
-            <h3>🚚 Fast Shipping</h3>
+            <h3><FontAwesomeIcon icon={faTruck} style={{ marginRight: '0.5rem' }} />Fast Shipping</h3>
             <p>Free shipping on orders over $100</p>
           </div>
           <div className={styles.featureItem}>
-            <h3>⭐ Expert Curation</h3>
+            <h3><FontAwesomeIcon icon={faStar} style={{ marginRight: '0.5rem', color: '#f39c12' }} />Expert Curation</h3>
             <p>Handpicked fragrances for quality</p>
           </div>
           <div className={styles.featureItem}>
-            <h3>💝 Customer Service</h3>
+            <h3><FontAwesomeIcon icon={faGift} style={{ marginRight: '0.5rem', color: '#e74c3c' }} />Customer Service</h3>
             <p>24/7 support for your needs</p>
           </div>
           <div className={styles.featureItem}>
-            <h3>🔄 Easy Returns</h3>
+            <h3><FontAwesomeIcon icon={faSync} style={{ marginRight: '0.5rem' }} />Easy Returns</h3>
             <p>30-day satisfaction guarantee</p>
           </div>
           <div className={styles.featureItem}>
-            <h3>💎 Exclusive Offers</h3>
+            <h3><FontAwesomeIcon icon={faGem} style={{ marginRight: '0.5rem', color: '#9b59b6' }} />Exclusive Offers</h3>
             <p>Member-only deals and discounts</p>
           </div>
         </div>

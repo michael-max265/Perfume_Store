@@ -48,8 +48,8 @@ export const sendVerificationCode = async (email, code, codeType = 'signup') => 
   try {
     // If no EmailJS configuration, fall back to console for development
     if (!EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID) {
-      console.warn('⚠️ EmailJS not configured. Verification code logged to console for development.')
-      console.log(`📧 Verification Code for ${email}: ${code}`)
+      console.warn('[WARNING] EmailJS not configured. Verification code logged to console for development.')
+      console.log(`[EMAIL] Verification Code for ${email}: ${code}`)
       return {
         success: true,
         message: 'Verification code sent (development mode)',

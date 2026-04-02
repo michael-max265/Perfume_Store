@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 import ProductCard from '../components/ProductCard'
 import { useProducts } from '../context/ProductsContext'
 import styles from './Pricing.module.css'
@@ -78,7 +80,12 @@ export default function Pricing() {
               isBestValue ? styles.bestValue : ''
             }`}
           >
-            {isBestValue && <div className={styles.bestValueLabel}>⭐ Best Value</div>}
+            {isBestValue && (
+              <div className={styles.bestValueLabel}>
+                <FontAwesomeIcon icon={faStar} style={{ marginRight: '0.5rem', color: '#f39c12' }} />
+                Best Value
+              </div>
+            )}
 
             <div className={styles.sectionHeader}>
               <div>

@@ -1,5 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSun, faMoon, faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
@@ -47,7 +50,8 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.headerContent}>
         <Link to="/" className={styles.logo} onClick={closeMenu}>
-          🌸 Perfume Store
+          <FontAwesomeIcon icon={faHeartRegular} style={{ marginRight: '0.5rem', color: '#e74c3c' }} />
+          Perfume Store
         </Link>
 
         <nav className={`${styles.navDesktop} ${menuOpen ? styles.menuOpen : ''}`}>
@@ -74,14 +78,14 @@ export default function Header() {
 
         <div className={styles.actions}>
           <button onClick={toggleTheme} className={styles.themeToggle} title="Toggle Theme" aria-label="Toggle Theme">
-            {isDarkMode ? '☀️' : '🌙'}
+            <FontAwesomeIcon icon={isDarkMode ? faSun : faMoon} />
           </button>
           
           <Link to="/wishlist" className={styles.iconButton} title="Wishlist" onClick={closeMenu}>
-            ❤️
+            <FontAwesomeIcon icon={faHeartRegular} />
           </Link>
           <Link to="/cart" className={styles.iconButton} title="Shopping Cart" onClick={closeMenu}>
-            🛒
+            <FontAwesomeIcon icon={faShoppingCart} />
             {totalItems > 0 && (
               <span className={styles.cartBadge}>{totalItems}</span>
             )}

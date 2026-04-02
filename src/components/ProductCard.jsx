@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { getPerfumeImage, getFallbackColor } from '../services/imageService'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar as faStarSolid, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import styles from './ProductCard.module.css'
 
 export default function ProductCard({ product, index = 0 }) {
@@ -53,7 +56,9 @@ export default function ProductCard({ product, index = 0 }) {
         )}
         {imageError && (
           <div className={styles.imageFallback}>
-            <div style={{ fontSize: '3rem' }}>🌹</div>
+            <div style={{ fontSize: '2.5rem' }}>
+              <FontAwesomeIcon icon={faHeartSolid} style={{ color: '#e74c3c' }} />
+            </div>
             <p>{product.brand}</p>
           </div>
         )}
@@ -63,7 +68,10 @@ export default function ProductCard({ product, index = 0 }) {
           aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
           title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
         >
-          {inWishlist ? '❤️' : '🤍'}
+          <FontAwesomeIcon 
+            icon={inWishlist ? faHeartSolid : faHeartRegular} 
+            style={{ fontSize: '1.25rem' }}
+          />
         </button>
       </div>
 
@@ -74,7 +82,10 @@ export default function ProductCard({ product, index = 0 }) {
 
         {product.rating && (
           <div className={styles.rating}>
-            <span className={styles.stars}>⭐ {product.rating.toFixed(1)}</span>
+            <span className={styles.stars}>
+              <FontAwesomeIcon icon={faStarSolid} style={{ color: '#f39c12', marginRight: '0.25rem' }} />
+              {product.rating.toFixed(1)}
+            </span>
             <span className={styles.reviewCount}>
               ({product.reviewCount || 0} reviews)
             </span>

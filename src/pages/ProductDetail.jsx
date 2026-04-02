@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar as faStarSolid, faArrowLeft, faHeart as faHeartSolid, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { useProducts } from '../context/ProductsContext'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
@@ -149,7 +152,8 @@ export default function ProductDetail() {
   return (
     <main className={styles.container}>
       <button className={styles.backButton} onClick={() => navigate('/shop')}>
-        ← Back to Shop
+        <FontAwesomeIcon icon={faArrowLeft} style={{ marginRight: '0.5rem' }} />
+        Back to Shop
       </button>
 
       <div className={styles.content}>
@@ -164,7 +168,9 @@ export default function ProductDetail() {
                 onError={() => setImageError(true)}
               />
             ) : (
-              <div className={styles.imageFallback}>🌹</div>
+              <div className={styles.imageFallback}>
+                <FontAwesomeIcon icon={faHeartSolid} style={{ fontSize: '5rem', color: '#e74c3c' }} />
+              </div>
             )}
             {discountPercentage > 0 && (
               <div className={styles.discountBadge}>-{discountPercentage}% OFF</div>
@@ -184,14 +190,20 @@ export default function ProductDetail() {
               onClick={handleWishlistToggle}
               title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
             >
-              {inWishlist ? '❤️' : '🤍'}
+              <FontAwesomeIcon 
+                icon={inWishlist ? faHeartSolid : faHeartRegular} 
+                size="xl"
+              />
             </button>
           </div>
 
           {/* Rating */}
           <div className={styles.ratingSection}>
             <div className={styles.ratingDisplay}>
-              <span className={styles.stars}>⭐ {product.rating?.toFixed(1) || 'N/A'}</span>
+              <span className={styles.stars}>
+                <FontAwesomeIcon icon={faStarSolid} style={{ color: '#f39c12', marginRight: '0.25rem' }} />
+                {product.rating?.toFixed(1) || 'N/A'}
+              </span>
               <span className={styles.reviewCount}>
                 ({reviews.length} {reviews.length === 1 ? 'review' : 'reviews'})
               </span>
@@ -310,11 +322,11 @@ export default function ProductDetail() {
                 })}
                 disabled={isSubmitting}
               >
-                <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
-                <option value="4">⭐⭐⭐⭐ Very Good</option>
-                <option value="3">⭐⭐⭐ Good</option>
-                <option value="2">⭐⭐ Fair</option>
-                <option value="1">⭐ Poor</option>
+                <option value="5">★★★★★ Excellent</option>
+                <option value="4">★★★★ Very Good</option>
+                <option value="3">★★★ Good</option>
+                <option value="2">★★ Fair</option>
+                <option value="1">★ Poor</option>
               </select>
             </div>
 
@@ -358,7 +370,8 @@ export default function ProductDetail() {
         {/* Success Message */}
         {submitSuccess && (
           <div className={styles.success}>
-            ✅ Thank you! Your review has been posted successfully.
+            <FontAwesomeIcon icon={faCheckCircle} style={{ marginRight: '0.5rem' }} />
+            Thank you! Your review has been posted successfully.
           </div>
         )}
 
@@ -387,11 +400,11 @@ export default function ProductDetail() {
                 onChange={(e) => setFilterRating(parseInt(e.target.value))}
               >
                 <option value="0">All Ratings</option>
-                <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
-                <option value="4">⭐⭐⭐⭐ (4 Stars)</option>
-                <option value="3">⭐⭐⭐ (3 Stars)</option>
-                <option value="2">⭐⭐ (2 Stars)</option>
-                <option value="1">⭐ (1 Star)</option>
+                <option value="5">★★★★★ (5 Stars)</option>
+                <option value="4">★★★★ (4 Stars)</option>
+                <option value="3">★★★ (3 Stars)</option>
+                <option value="2">★★ (2 Stars)</option>
+                <option value="1">★ (1 Star)</option>
               </select>
             </div>
           </div>
@@ -410,7 +423,7 @@ export default function ProductDetail() {
                   <div>
                     <p className={styles.reviewerName}>{review.customerName}</p>
                     <div className={styles.reviewRating}>
-                      {'⭐'.repeat(review.rating)}
+                      {'★'.repeat(review.rating)}
                       <span className={styles.ratingValue}>({review.rating}/5)</span>
                     </div>
                   </div>
