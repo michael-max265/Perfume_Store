@@ -20,6 +20,10 @@
         {
           "key": "Expires",
           "value": "0"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
         }
       ]
     },
